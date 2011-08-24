@@ -1,0 +1,15 @@
+#!/usr/env awk
+
+$5 == "kernel" {
+  OK = 1;
+}
+
+OK == 1 && $2 != "time" && $2 != "" {
+  printf( "%.4f, ", $2 );
+}
+
+$1 == "elapsed:" {
+  printf( "%.4f\n", $2 );
+}
+
+

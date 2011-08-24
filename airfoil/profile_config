@@ -1,0 +1,5 @@
+timestamp
+regperthread
+l1_global_load_hit
+l1_global_load_miss
+gld_request

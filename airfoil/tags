@@ -1,0 +1,149 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+0	Session.vim	/^normal! 0$/;"	m
+016l	Session.vim	/^normal! 016l$/;"	m
+017l	Session.vim	/^normal! 017l$/;"	m
+024l	Session.vim	/^normal! 024l$/;"	m
+030l	Session.vim	/^normal! 030l$/;"	m
+037l	Session.vim	/^normal! 037l$/;"	m
+044l	Session.vim	/^normal! 044l$/;"	m
+BINDIR	common_opencl.mk	/^BINDIR     ?= $(OCLBINDIR)\/$(OSLOWER)$/;"	m
+BINSUBDIR	common_opencl.mk	/^	BINSUBDIR   := debug$/;"	m
+BINSUBDIR	common_opencl.mk	/^	BINSUBDIR   := release$/;"	m
+BLOCK_SIZE	Makefile	/^  BLOCK_SIZE := 256$/;"	m
+CC	common_opencl.mk	/^CC         := gcc$/;"	m
+CCFLAGS	Makefile	/^CCFLAGS		:= -O3 -fPIC -DUNIX -Wall -Wextra$/;"	m
+CFLAGS	Makefile	/^CFLAGS	:= -g -DOP_BLOCK_SIZE_0=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_1=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_2=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_3=$(BLOCK_SIZE) -DOP_PART_SIZE_0=$(PART_SIZE) -DOP_PART_SIZE_1=$(PART_SIZE) -DOP_PART_SIZE_2=$(PART_SIZE) -DOP_PART_SIZE_3=$(PART_SIZE)$/;"	m
+CFLAGS	common_opencl.mk	/^CFLAGS    := $(CWARN_FLAGS)$/;"	m
+CUBIN_ARCH_FLAG	common_opencl.mk	/^	CUBIN_ARCH_FLAG := -m64$/;"	m
+CWARN_FLAGS	common_opencl.mk	/^CWARN_FLAGS := $(CXXWARN_FLAGS) \\$/;"	m
+CXX	common_opencl.mk	/^CXX        := g++$/;"	m
+CXXFLAGS	Makefile	/^CXXFLAGS := $(CFLAGS)$/;"	m
+CXXFLAGS	common_opencl.mk	/^CXXFLAGS  := $(CXXWARN_FLAGS)$/;"	m
+CXXWARN_FLAGS	common_opencl.mk	/^CXXWARN_FLAGS := \\$/;"	m
+DARWIN	common_opencl.mk	/^DARWIN = $(strip $(findstring DARWIN, $(OSUPPER)))$/;"	m
+HP_64	common_opencl.mk	/^HP_64 =	$(shell uname -m | grep 64)$/;"	m
+INC	Makefile	/^INC		:= -I$(OPENCL)\/include -I$(OP2) -I.$/;"	m
+INC2	common_opencl.mk	/^INC2	:= .$/;"	m
+INCDIR	common_opencl.mk	/^INCDIR	?= .$/;"	m
+LIB	Makefile	/^LIB		:= -L$(OPENCL)\/lib64 $/;"	m
+LIB	common_opencl.mk	/^   LIB       := ${USRLIBDIR} -L${OCLLIBDIR} -L$(LIBDIR) -L$(SHAREDDIR)\/lib\/$(OSLOWER) $/;"	m
+LIB	common_opencl.mk	/^   LIB       := -L${OCLLIBDIR} -L$(LIBDIR) -L$(SHAREDDIR)\/lib\/$(OSLOWER) $/;"	m
+LIBDIR	common_opencl.mk	/^LIBDIR     := $(ROOTDIR)\/shared\/lib\/$/;"	m
+LIBS	Makefile	/^LIBS		:= $(LIB) -lcudart$/;"	m
+LIBSUFFIX	common_opencl.mk	/^	LIBSUFFIX   := D$/;"	m
+LIBSUFFIX	common_opencl.mk	/^	LIBSUFFIX   :=$/;"	m
+LINK	common_opencl.mk	/^LINK       := g++ -fPIC$/;"	m
+LINKLINE	common_opencl.mk	/^	LINKLINE  = $(LINK) -o $(TARGET) $(OBJS) $(LIB)$/;"	m
+LINKLINE	common_opencl.mk	/^	LINKLINE  = ar qv $(TARGET) $(OBJS) $/;"	m
+MACHINE	common_opencl.mk	/^	MACHINE := 32$/;"	m
+MACHINE	common_opencl.mk	/^	MACHINE := 64$/;"	m
+MAX_CONST_SIZE	airfoil_kernels.cl.cpp	16;"	d	file:
+MAX_DIFF	getError.c	7;"	d	file:
+NVCCFLAGS	Makefile	/^NVCCFLAGS	:= -O3 -arch=sm_20 \\$/;"	m
+OBJDIR	common_opencl.mk	/^OBJDIR := $(ROOTOBJDIR)\/$(BINSUBDIR)$/;"	m
+OCLBINDIR	common_opencl.mk	/^OCLBINDIR ?= .\/ocl\/bin\/$/;"	m
+OCLCOMMONDIR	common_opencl.mk	/^OCLCOMMONDIR ?= $(OCLROOTDIR)\/common\/$/;"	m
+OCLINC	Makefile	/^OCLINC	:= -I$(OP2) -I. $(INC)$/;"	m
+OCLLIB	Makefile	/^OCLLIB	:= -L\/usr\/lib64 -L$(OPENCL)\/lib\/x86_64 -lOpenCL$/;"	m
+OCLLIBDIR	common_opencl.mk	/^OCLLIBDIR     := $(OCLCOMMONDIR)\/lib$/;"	m
+OCLROOTDIR	common_opencl.mk	/^OCLROOTDIR := $(ROOTDIR)\/OpenCL\/$/;"	m
+OMP	Makefile	/^OMP		:= -fopenmp -lgomp$/;"	m
+OP2	Makefile	/^OP2		:= ..\/common$/;"	m
+OP2_H	Makefile	/^OP2_H		:= $(OP2)\/op_seq.h $(OP2)\/op_lib.h $(OP2)\/op_lib_core.h$/;"	m
+OP2_LIB	Makefile	/^OP2_LIB		:= $(OP2)\/op_lib.a$/;"	m
+OPENCL	Makefile	/^  OPENCL		:=$(AMDAPPSDKROOT)$/;"	m
+OPENCL	Makefile	/^  OPENCL		:=$(CUDA_HOME)$/;"	m
+OPENGLLIB	common_opencl.mk	/^		OPENGLLIB := -L\/System\/Library\/Frameworks\/OpenGL.framework\/Libraries -lGL -lGLU $(SHAREDDIR)\/lib\/$(OSLOWER)\/libGLEW.a$/;"	m
+OPENGLLIB	common_opencl.mk	/^		OPENGLLIB := -lGL -lGLU -lX11 -lXmu$/;"	m
+OP_BLOCK_SIZE_1	Makefile	/^OP_BLOCK_SIZE_1 := 64$/;"	m
+OSLOWER	common_opencl.mk	/^OSLOWER = $(shell uname -s 2>\/dev\/null | tr [:upper:] [:lower:])$/;"	m
+OSUPPER	common_opencl.mk	/^OSUPPER = $(shell uname -s 2>\/dev\/null | tr [:lower:] [:upper:])$/;"	m
+P4_ROOT	common_opencl.mk	/^P4_ROOT ?= ${HOME}\/perforce\/$/;"	m
+PART_SIZE	Makefile	/^  PART_SIZE := 256$/;"	m
+ROOTDIR	common_opencl.mk	/^ROOTDIR    ?= $(OPENCL_HOME)$/;"	m
+ROOTOBJDIR	common_opencl.mk	/^ROOTOBJDIR ?= obj$/;"	m
+SHAREDDIR	common_opencl.mk	/^SHAREDDIR  := $(ROOTDIR)\/shared\/$/;"	m
+SRCDIR	common_opencl.mk	/^SRCDIR     ?= $/;"	m
+SessionLoad	Session.vim	/^let SessionLoad = 1$/;"	v
+TARGET	common_opencl.mk	/^	TARGET    := $(TARGETDIR)\/$(EXECUTABLE)$/;"	m
+TARGET	common_opencl.mk	/^	TARGET   := $(subst .a,$(LIBSUFFIX).a,$(OCLLIBDIR)\/$(STATIC_LIB))$/;"	m
+TARGETDIR	common_opencl.mk	/^	TARGETDIR := $(BINDIR)\/$(BINSUBDIR)$/;"	m
+TARGETDIR	common_opencl.mk	/^	TARGETDIR := $(OCLLIBDIR)$/;"	m
+USRLIBDIR	common_opencl.mk	/^	USRLIBDIR := -L\/usr\/lib64\/$/;"	m
+USRLIBDIR	common_opencl.mk	/^	USRLIBDIR := -L\/usr\/lib\/$/;"	m
+VERBOSE	common_opencl.mk	/^	VERBOSE := @$/;"	m
+VERBOSE	common_opencl.mk	/^	VERBOSE :=$/;"	m
+__NO_STD_VECTOR	airfoil_kernels.cl.cpp	8;"	d	file:
+__NO_STD_VECTOR	airfoil_op.cpp	52;"	d	file:
+__syncthreads	airfoil_kernels.cpp	/^void __syncthreads(){}         $/;"	f	signature:()
+alpha	airfoil.cpp	/^float gam, gm1, cfl, eps, mach, alpha, qinf[4];$/;"	v
+alpha	airfoil_op.cpp	/^  float alpha;$/;"	m	struct:global_constants	file:	access:public
+cfl	airfoil.cpp	/^float gam, gm1, cfl, eps, mach, alpha, qinf[4];$/;"	v
+cfl	airfoil_op.cpp	/^  float cfl;$/;"	m	struct:global_constants	file:	access:public
+dbgstream	airfoil_op.cpp	/^FILE *dbgstream = stderr;$/;"	v
+dump_array	airfoil_op.cpp	/^void dump_array( op_dat dat, const char *file ) {$/;"	f	signature:( op_dat dat, const char *file )
+eps	airfoil.cpp	/^float gam, gm1, cfl, eps, mach, alpha, qinf[4];$/;"	v
+eps	airfoil_op.cpp	/^  float eps;$/;"	m	struct:global_constants	file:	access:public
+g_const	airfoil_op.cpp	/^struct global_constants g_const;$/;"	v	typeref:struct:global_constants
+g_const_d	airfoil_op.cpp	/^cl_mem g_const_d;$/;"	v
+gam	airfoil.cpp	/^float gam, gm1, cfl, eps, mach, alpha, qinf[4];$/;"	v
+gam	airfoil_op.cpp	/^  float gam;$/;"	m	struct:global_constants	file:	access:public
+global_constants	airfoil_op.cpp	/^struct global_constants {$/;"	s	file:
+global_constants::alpha	airfoil_op.cpp	/^  float alpha;$/;"	m	struct:global_constants	file:	access:public
+global_constants::cfl	airfoil_op.cpp	/^  float cfl;$/;"	m	struct:global_constants	file:	access:public
+global_constants::eps	airfoil_op.cpp	/^  float eps;$/;"	m	struct:global_constants	file:	access:public
+global_constants::gam	airfoil_op.cpp	/^  float gam;$/;"	m	struct:global_constants	file:	access:public
+global_constants::gm1	airfoil_op.cpp	/^  float gm1;$/;"	m	struct:global_constants	file:	access:public
+global_constants::mach	airfoil_op.cpp	/^  float mach;$/;"	m	struct:global_constants	file:	access:public
+global_constants::qinf	airfoil_op.cpp	/^  float qinf[4];$/;"	m	struct:global_constants	file:	access:public
+gm1	airfoil.cpp	/^float gam, gm1, cfl, eps, mach, alpha, qinf[4];$/;"	v
+gm1	airfoil_op.cpp	/^  float gm1;$/;"	m	struct:global_constants	file:	access:public
+mach	airfoil.cpp	/^float gam, gm1, cfl, eps, mach, alpha, qinf[4];$/;"	v
+mach	airfoil_op.cpp	/^  float mach;$/;"	m	struct:global_constants	file:	access:public
+main	airfoil.cpp	/^int main(int argc, char **argv){$/;"	f	signature:(int argc, char **argv)
+main	airfoil_op.cpp	/^int main(int argc, char **argv){$/;"	f	signature:(int argc, char **argv)
+main	getError.c	/^int main ( int argc, char ** argv ) $/;"	f	signature:( int argc, char ** argv )
+op_decl_const_char	airfoil_kernels.cl.cpp	/^void op_decl_const_char(int dim, char const *type,$/;"	f	signature:(int dim, char const *type, int size, char *dat, char const *name)
+op_par_loop_adt_calc	adt_calc_kernel.cl.cpp	/^void op_par_loop_adt_calc(char const *name, op_set set,$/;"	f	signature:(char const *name, op_set set, op_arg arg0, op_arg arg1, op_arg arg2, op_arg arg3, op_arg arg4, op_arg arg5 )
+op_par_loop_adt_calc	adt_calc_kernel.cpp	/^void op_par_loop_adt_calc(char const *name, op_set set,                 $/;"	f	signature:(char const *name, op_set set, op_arg arg0, op_arg arg1, op_arg arg2, op_arg arg3, op_arg arg4, op_arg arg5 )
+op_par_loop_adt_calc	airfoil_op.cpp	/^void op_par_loop_adt_calc(char const *, op_set,$/;"	p	file:	signature:(char const *, op_set, op_arg, op_arg, op_arg, op_arg, op_arg, op_arg )
+op_par_loop_bres_calc	airfoil_op.cpp	/^void op_par_loop_bres_calc(char const *, op_set,$/;"	p	file:	signature:(char const *, op_set, op_arg, op_arg, op_arg, op_arg, op_arg, op_arg )
+op_par_loop_bres_calc	bres_calc_kernel.cl.cpp	/^void op_par_loop_bres_calc(char const *name, op_set set,$/;"	f	signature:(char const *name, op_set set, op_arg arg0, op_arg arg1, op_arg arg2, op_arg arg3, op_arg arg4, op_arg arg5 )
+op_par_loop_bres_calc	bres_calc_kernel.cpp	/^void op_par_loop_bres_calc(char const *name, op_set set,                $/;"	f	signature:(char const *name, op_set set, op_arg arg0, op_arg arg1, op_arg arg2, op_arg arg3, op_arg arg4, op_arg arg5 )
+op_par_loop_res_calc	airfoil_op.cpp	/^void op_par_loop_res_calc(char const *, op_set,$/;"	p	file:	signature:(char const *, op_set, op_arg, op_arg, op_arg, op_arg, op_arg, op_arg, op_arg, op_arg )
+op_par_loop_res_calc	res_calc_kernel.cl.cpp	/^void op_par_loop_res_calc(char const *name, op_set set,$/;"	f	signature:(char const *name, op_set set, op_arg arg0, op_arg arg1, op_arg arg2, op_arg arg3, op_arg arg4, op_arg arg5, op_arg arg6, op_arg arg7 )
+op_par_loop_res_calc	res_calc_kernel.cpp	/^void op_par_loop_res_calc(char const *name, op_set set,                 $/;"	f	signature:(char const *name, op_set set, op_arg arg0, op_arg arg1, op_arg arg2, op_arg arg3, op_arg arg4, op_arg arg5, op_arg arg6, op_arg arg7 )
+op_par_loop_save_soln	airfoil_op.cpp	/^void op_par_loop_save_soln(char const *, op_set,$/;"	p	file:	signature:(char const *, op_set, op_arg, op_arg )
+op_par_loop_save_soln	save_soln_kernel.cl.cpp	/^void op_par_loop_save_soln(char const *name, op_set set,$/;"	f	signature:(char const *name, op_set set, op_arg arg0, op_arg arg1 )
+op_par_loop_save_soln	save_soln_kernel.cpp	/^void op_par_loop_save_soln(char const *name, op_set set,      $/;"	f	signature:(char const *name, op_set set, op_arg arg0, op_arg arg1 )
+op_par_loop_update	airfoil_op.cpp	/^void op_par_loop_update(char const *, op_set,$/;"	p	file:	signature:(char const *, op_set, op_arg, op_arg, op_arg, op_arg, op_arg )
+op_par_loop_update	update_kernel.cl.cpp	/^void op_par_loop_update(char const *name, op_set set,$/;"	f	signature:(char const *name, op_set set, op_arg arg0, op_arg arg1, op_arg arg2, op_arg arg3, op_arg arg4 )
+op_par_loop_update	update_kernel.cpp	/^void op_par_loop_update(char const *name, op_set set,           $/;"	f	signature:(char const *name, op_set set, op_arg arg0, op_arg arg1, op_arg arg2, op_arg arg3, op_arg arg4 )
+op_x86_adt_calc	adt_calc_kernel.cpp	/^void op_x86_adt_calc(                                                   $/;"	f	signature:( int blockIdx, float *ind_arg0, int *ind_arg0_maps, short *arg0_maps, short *arg1_maps, short *arg2_maps, short *arg3_maps, float *arg4, float *arg5, int *ind_arg_sizes, int *ind_arg_offs, int block_offset, int *blkmap, int *offset, int *nelems, int *ncolors, int *colors)
+op_x86_bres_calc	bres_calc_kernel.cpp	/^void op_x86_bres_calc(                                                  $/;"	f	signature:( int blockIdx, float *ind_arg0, int *ind_arg0_maps, float *ind_arg1, int *ind_arg1_maps, float *ind_arg2, int *ind_arg2_maps, float *ind_arg3, int *ind_arg3_maps, short *arg0_maps, short *arg1_maps, short *arg2_maps, short *arg3_maps, short *arg4_maps, int *arg5, int *ind_arg_sizes, int *ind_arg_offs, int block_offset, int *blkmap, int *offset, int *nelems, int *ncolors, int *colors)
+op_x86_res_calc	res_calc_kernel.cpp	/^void op_x86_res_calc(                                                   $/;"	f	signature:( int blockIdx, float *ind_arg0, int *ind_arg0_maps, float *ind_arg1, int *ind_arg1_maps, float *ind_arg2, int *ind_arg2_maps, float *ind_arg3, int *ind_arg3_maps, short *arg0_maps, short *arg1_maps, short *arg2_maps, short *arg3_maps, short *arg4_maps, short *arg5_maps, short *arg6_maps, short *arg7_maps, int *ind_arg_sizes, int *ind_arg_offs, int block_offset, int *blkmap, int *offset, int *nelems, int *ncolors, int *colors)
+op_x86_save_soln	save_soln_kernel.cpp	/^void op_x86_save_soln(                                        $/;"	f	signature:( float *arg0, float *arg1, int start, int finish )
+op_x86_update	update_kernel.cpp	/^void op_x86_update(                                             $/;"	f	signature:( float *arg0, float *arg1, float *arg2, float *arg3, float *arg4, int start, int finish )
+print_array	airfoil_op.cpp	/^void print_array( float *array, int len, const char *file ) {$/;"	f	signature:( float *array, int len, const char *file )
+qinf	airfoil.cpp	/^float gam, gm1, cfl, eps, mach, alpha, qinf[4];$/;"	v
+qinf	airfoil_op.cpp	/^  float qinf[4];$/;"	m	struct:global_constants	file:	access:public
+s:l	Session.vim	/^let s:l = 1 - ((0 * winheight(0) + 29) \/ 59)$/;"	v
+s:l	Session.vim	/^let s:l = 274 - ((5 * winheight(0) + 29) \/ 59)$/;"	v
+s:l	Session.vim	/^let s:l = 307 - ((20 * winheight(0) + 29) \/ 59)$/;"	v
+s:l	Session.vim	/^let s:l = 371 - ((0 * winheight(0) + 0) \/ 1)$/;"	v
+s:l	Session.vim	/^let s:l = 371 - ((0 * winheight(0) + 28) \/ 57)$/;"	v
+s:l	Session.vim	/^let s:l = 393 - ((5 * winheight(0) + 29) \/ 59)$/;"	v
+s:l	Session.vim	/^let s:l = 61 - ((26 * winheight(0) + 29) \/ 59)$/;"	v
+s:l	Session.vim	/^let s:l = 61 - ((47 * winheight(0) + 29) \/ 59)$/;"	v
+s:l	Session.vim	/^let s:l = 7 - ((6 * winheight(0) + 29) \/ 59)$/;"	v
+s:l	Session.vim	/^let s:l = 9 - ((7 * winheight(0) + 29) \/ 59)$/;"	v
+s:l	Session.vim	/^let s:l = 92 - ((41 * winheight(0) + 29) \/ 59)$/;"	v
+s:so_save	Session.vim	/^let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0$/;"	v
+s:sx	Session.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v
+s:wipebuf	Session.vim	/^  let s:wipebuf = bufnr('%')$/;"	v
+zt	Session.vim	/^normal! zt$/;"	m

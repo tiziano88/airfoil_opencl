@@ -1,0 +1,2 @@
+export OPENCL_PROFILE=0
+export OPENCL_PROFILE_CSV=1

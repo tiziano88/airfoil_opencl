@@ -1,0 +1,17 @@
+#!/bin/sh
+
+#PBS -l mem=1gb
+#PBS -l ncpus=1
+#PBS -l ngpus=1
+#PBS -W block=true
+#PBS -q pqkelly
+#PBS -o out.txt
+#PBS -e err.txt
+
+module load opencl
+module load cuda/4.0.17
+cd $WORK/op2/airfoil
+export OPENCL_PROFILE=1
+export OPENCL_PROFILE_CSV=1
+export OPENCL_PROFILE_CONFIG=$WORK/profile_config
+./airfoil_opencl
