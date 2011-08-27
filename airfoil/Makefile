@@ -46,7 +46,8 @@ endif
 ifndef PART_SIZE
   PART_SIZE := 128
 endif
-CFLAGS	:= -O3 -fPIC -DUNIX -Wall -Wextra -g -DOP_BLOCK_SIZE_0=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_1=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_2=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_3=$(BLOCK_SIZE) -DOP_PART_SIZE_0=$(PART_SIZE) -DOP_PART_SIZE_1=$(PART_SIZE) -DOP_PART_SIZE_2=$(PART_SIZE) -DOP_PART_SIZE_3=$(PART_SIZE)
+CFLAGS	:= -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_1=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_2=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_3=$(BLOCK_SIZE) -DOP_PART_SIZE_0=$(PART_SIZE) -DOP_PART_SIZE_1=$(PART_SIZE) -DOP_PART_SIZE_2=$(PART_SIZE) -DOP_PART_SIZE_3=$(PART_SIZE)
+#-g
 CXXFLAGS := $(CFLAGS)
 #
 # master to make all versions
@@ -89,6 +90,15 @@ airfoil_kernels_ocl.o:	airfoil_kernels.cl.cpp      \
 		update_kernel.cl.cpp    \
                 Makefile $(OP2_H) $(OP2_LIB) $(OP2)/op_lib.cl.cpp
 		g++ $(CFLAGS) $(OCLINC) -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+
+single: airfoil_opencl
+	-ln -fs kernels_single.cl kernels.cl
+
+double: airfoil_opencl
+	-ln -fs kernels_double.cl kernels.cl
+
+vector: airfoil_opencl
+	-ln -fs kernels_vector.cl kernels.cl
 
 #
 # cleanup

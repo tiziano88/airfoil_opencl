@@ -462,11 +462,6 @@ __kernel void op_cuda_save_soln(
     for (int m=0; m<4; m++)
       arg0_l[m] = arg_s[tid*4 + m];
       
-/*
-    for (int m=0; m<4; ++m) {
-      arg0_l[m] = arg0[n*4+m];
-    }
-    */
 
 
     // user-supplied kernel call
@@ -474,11 +469,6 @@ __kernel void op_cuda_save_soln(
     save_soln( arg0_l,
                arg1_l );
 
-/*
-    for (int m=0; m<4; ++m) {
-      arg1[n*4+m] = arg1_l[m];
-    }
-    */
 
     // copy back into shared memory, then to device
 
@@ -488,6 +478,78 @@ __kernel void op_cuda_save_soln(
 
     for (int m=0; m<4; m++)
       arg1[tid+m*nelems+offset*4] = arg_s[tid+m*nelems];
+      
+      
+
+  }
+}
+inline void save_soln_v(float4 *q, float4 *qold){
+ for (int n=0; n<4; n++) qold[n] = q[n];
+}
+
+__kernel void op_cuda_save_soln_v(
+  __global float *arg0,
+  __global float *arg1,
+  int   offset_s,
+  int   set_size ,
+  __local  char *shared ) {
+
+  float4 arg0_l[4];
+  float4 arg1_l[4];
+  int   tid = get_local_id(0) % OP_WARPSIZE;
+
+  __local float4 *arg_s = (__local float4 *) (shared+ offset_s *(get_local_id(0)/OP_WARPSIZE));
+
+
+  // process set elements
+  
+
+  //for (int n=get_local_id(0)+get_group_id(0)*get_local_size(0);
+  //     n<set_size; n+=get_local_size(0)*get_num_groups(0)) {
+  for (int n=get_global_id(0); n<set_size; n+=get_global_size(0)) {
+
+    int offset = n - tid;
+    int nelems = MIN(OP_WARPSIZE,set_size-offset);
+
+    // copy data into shared memory, then into local
+
+    
+    //for (int m=0; m<4; m++)
+      arg_s[tid] = vload4( 0, arg0 + offset*4 + tid*4 );
+
+
+    //for (int m=0; m<4; m++)
+      arg0_l[tid] = arg_s[tid];
+
+    arg0_l[0] = (float4)( arg0_l[0].x, arg0_l[1].x, arg0_l[2].x, arg0_l[3].x );
+    arg0_l[1] = (float4)( arg0_l[0].y, arg0_l[1].y, arg0_l[2].y, arg0_l[3].y );
+    arg0_l[2] = (float4)( arg0_l[0].z, arg0_l[1].z, arg0_l[2].z, arg0_l[3].z );
+    arg0_l[3] = (float4)( arg0_l[0].w, arg0_l[1].w, arg0_l[2].w, arg0_l[3].w );
+
+      
+
+
+    // user-supplied kernel call
+
+    save_soln_v( arg0_l,
+                 arg1_l );
+
+
+    arg0_l[0] = (float4)( arg0_l[0].x, arg0_l[1].x, arg0_l[2].x, arg0_l[3].x );
+    arg0_l[1] = (float4)( arg0_l[0].y, arg0_l[1].y, arg0_l[2].y, arg0_l[3].y );
+    arg0_l[2] = (float4)( arg0_l[0].z, arg0_l[1].z, arg0_l[2].z, arg0_l[3].z );
+    arg0_l[3] = (float4)( arg0_l[0].w, arg0_l[1].w, arg0_l[2].w, arg0_l[3].w );
+    // copy back into shared memory, then to device
+
+    arg_s[tid] = arg0_l[tid];
+
+    vstore4( arg_s[tid], 0, arg1 + offset*4 + tid*4 );
+    
+//    for (int m=0; m<4; m++)
+ //     arg_s[m+tid*4] = arg1_l[m];
+
+    //for (int m=0; m<4; m++)
+      //arg1[tid+m*nelems+offset*4] = arg_s[tid+m*nelems];
       
       
 

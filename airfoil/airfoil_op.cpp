@@ -288,9 +288,10 @@ int main(int argc, char **argv){
                 op_arg_dat(p_q,   -1,OP_ID, 4,"float",OP_READ ),
                 op_arg_dat(p_qold,-1,OP_ID, 4,"float",OP_WRITE));
 
-    if ( iter == 1 ) {
+/*    if ( iter == 1 ) {
       dump_array( p_qold, "p_qold" );
     }
+    */
 
     //dump_array( p_qold, "p_qold" );
     //op_fetch_data( p_qold );
@@ -361,7 +362,7 @@ int main(int argc, char **argv){
 
   op_timing_output();
 
-  dump_array( p_q, "p_q" );
+  //dump_array( p_q, "p_q" );
 
 
 
