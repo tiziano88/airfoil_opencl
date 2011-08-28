@@ -52,7 +52,7 @@ void op_par_loop_save_soln(char const *name, op_set set,
 
   cl_kernel hKernel = getKernel( "op_cuda_save_soln" );
 
-  nshared = (nshared + 1) *4;
+  nshared *= 4;
   offset_s *= 4;
 
   int i = 0;
