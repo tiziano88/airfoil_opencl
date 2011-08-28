@@ -1,2 +1,15 @@
-4608, 1, opencl, amd, single, 7.7500
-4608, 2, opencl, amd, single, 4608, 3, opencl, amd, single, 18432, 1, opencl, amd, single, 18432, 2, opencl, amd, single, 18432, 3, opencl, amd, single, 73728, 1, opencl, amd, single, 73728, 2, opencl, amd, single, 73728, 3, opencl, amd, single, 294912, 1, opencl, amd, single, 294912, 2, opencl, amd, single, 294912, 3, opencl, amd, single, 1179648, 1, opencl, amd, single, 1179648, 2, opencl, amd, single, 1179648, 3, opencl, amd, single, 
+4608, 1, opencl, amd, single, 7.0200
+4608, 2, opencl, amd, single, 6.9600
+4608, 3, opencl, amd, single, 7.8900
+18432, 1, opencl, amd, single, 8.3500
+18432, 2, opencl, amd, single, 8.6000
+18432, 3, opencl, amd, single, 8.3300
+73728, 1, opencl, amd, single, 10.2700
+73728, 2, opencl, amd, single, 10.3100
+73728, 3, opencl, amd, single, 10.1600
+294912, 1, opencl, amd, single, 16.2800
+294912, 2, opencl, amd, single, 16.1000
+294912, 3, opencl, amd, single, 16.1300
+1179648, 1, opencl, amd, single, 39.3200
+1179648, 2, opencl, amd, single, 39.5400
+1179648, 3, opencl, amd, single, 39.3200

@@ -66,6 +66,7 @@ void op_par_loop_adt_calc(char const *name, op_set set,
 
     cl_kernel hKernel = getKernel( "op_cuda_adt_calc" );
 
+
     int i = 0;
     ciErrNum = clSetKernelArg(hKernel, i++, sizeof(cl_mem), &(arg0.data_d));
     ciErrNum |= clSetKernelArg(hKernel, i++, sizeof(cl_mem), &Plan->ind_maps[0]);

@@ -362,7 +362,7 @@ int main(int argc, char **argv){
 
   op_timing_output();
 
-  //dump_array( p_q, "p_q" );
+  dump_array( p_q, "p_q" );
 
 
 
