@@ -176,7 +176,7 @@ __kernel void op_cuda_bres_calc(
     ind_arg3[n%4+ind_arg3_map[n/4]*4] += ind_arg3_s[n];
 }
 //template < op_access reduction, class T >
-inline void op_reduction( __global volatile float *dat_g, float dat_l, op_access reduction, __local float *temp)
+inline void op_reduction( __global volatile float *dat_g, float dat_l, int reduction, __local float *temp)
 {
   int tid = get_local_id( 0 );
   int d   = get_local_size( 0 )>>1; 
