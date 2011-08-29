@@ -7,16 +7,18 @@ struct global_constants {
   float alpha;
   float qinf[4];
 };
+#define VEC 1
+#define VECTYPE float
 #define OP_WARPSIZE 32
 #define ZERO_float 0.0f
 #define ROUND_UP(bytes) (((bytes) + 15 ) & ~15 )
 #define MIN(a,b) ((a<b) ? (a) : (b))
 typedef enum {OP_READ, OP_WRITE, OP_RW, OP_INC, OP_MIN, OP_MAX} op_access;
 inline void bres_calc(
-  __local float *x1,  
-  __local float *x2,  
-  __local float *q1,
-  __local float *adt1, 
+  __local VECTYPE *x1,  
+  __local VECTYPE *x2,  
+  __local VECTYPE *q1,
+  __local VECTYPE *adt1, 
   float *res1,
   __global int *bound,
   __constant struct global_constants *g_const_d ) {
@@ -74,17 +76,17 @@ __kernel void op_cuda_bres_calc(
   __global int   *nelems,
   __global int   *ncolors,
   __global int   *colors,
-  __local  float  *shared, 
+  __local  VECTYPE  *shared, 
   __constant struct global_constants *g_const_d ) {
 
   float arg4_l[4];
 
   __global int   * __local ind_arg0_map, * __local ind_arg1_map, * __local ind_arg2_map, * __local ind_arg3_map;
   __local int ind_arg0_size, ind_arg1_size, ind_arg2_size, ind_arg3_size;
-  __local float * __local ind_arg0_s;
-  __local float * __local ind_arg1_s;
-  __local float * __local ind_arg2_s;
-  __local float * __local ind_arg3_s;
+  __local VECTYPE * __local ind_arg0_s;
+  __local VECTYPE * __local ind_arg1_s;
+  __local VECTYPE * __local ind_arg2_s;
+  __local VECTYPE * __local ind_arg3_s;
   __local int    nelems2, ncolor;
   __local int    nelem, offset_b;
 
@@ -242,8 +244,8 @@ inline void op_reduction( __global volatile float *dat_g, float dat_l, int reduc
 
 }
 
-inline void update(float *qold, float *q, float *res, __global float *adt, float *rms){
-  float del, adti;
+inline void update(VECTYPE *qold, VECTYPE *q, VECTYPE *res, __global VECTYPE *adt, VECTYPE *rms){
+  VECTYPE del, adti;
 
   adti = 1.0f/(*adt);
 
@@ -264,7 +266,7 @@ __kernel void op_cuda_update(
   int arg4_offset,
   int   offset_s,
   int   set_size,
-  __local  float *shared ) {
+  __local  VECTYPE *shared ) {
 
   arg4 =  arg4 + arg4_offset/sizeof(float);
 
@@ -278,7 +280,7 @@ __kernel void op_cuda_update(
 
   int   tid = get_local_id(0)%OP_WARPSIZE;
 
-  __local float *arg_s = shared+ offset_s *(get_local_id(0)/OP_WARPSIZE)/sizeof(float);
+  __local VECTYPE *arg_s = shared+ offset_s *(get_local_id(0)/OP_WARPSIZE)/sizeof(float);
 
   // process set elements
   for (int n=get_global_id(0); n<set_size; n+=get_global_size(0)) {
@@ -329,8 +331,6 @@ __kernel void op_cuda_update(
     op_reduction(&arg4[d+get_group_id(0)*1],arg4_l[d],OP_INC, temp);
 }
 
-#define VEC 16
-#define VECTYPE float16
 inline void adt_calc(VECTYPE *x1,VECTYPE *x2,VECTYPE *x3,VECTYPE *x4,VECTYPE *q,VECTYPE *adt, __constant struct global_constants *g_const_d){
   VECTYPE dx,dy, ri,u,v,c;
 
@@ -375,14 +375,14 @@ __kernel void op_cuda_adt_calc(
   __global int   *nelems,
   __global int   *ncolors,
   __global int   *colors,
-  __local  float  *shared,
+  __local  VECTYPE  *shared,
   __constant struct global_constants *g_const_d ) {
 
 
 
   __global int   * __local ind_arg0_map;
   __local int ind_arg0_size;
-  __local float * __local ind_arg0_s;
+  __local VECTYPE * __local ind_arg0_s;
   __local int    nelem, offset_b;
 
   VECTYPE arg0_l[2];
@@ -444,6 +444,8 @@ __kernel void op_cuda_adt_calc(
 #endif
 #endif
 #endif
+#else
+        arg0_l[m] = ind_arg0_s[arg0_maps[n + offset_b]*2+m];
 #endif
       }
 
@@ -471,6 +473,8 @@ __kernel void op_cuda_adt_calc(
 #endif
 #endif
 #endif
+#else
+        arg1_l[m] = ind_arg0_s[arg1_maps[n + offset_b]*2+m];
 #endif
       }
 
@@ -498,6 +502,8 @@ __kernel void op_cuda_adt_calc(
 #endif
 #endif
 #endif
+#else
+        arg2_l[m] = ind_arg0_s[arg2_maps[n + offset_b]*2+m];
 #endif
       }
 
@@ -525,6 +531,8 @@ __kernel void op_cuda_adt_calc(
 #endif
 #endif
 #endif
+#else
+        arg3_l[m] = ind_arg0_s[arg3_maps[n + offset_b]*2+m];
 #endif
       }
 
@@ -553,7 +561,10 @@ __kernel void op_cuda_adt_calc(
 #endif
 #endif
 #endif
+#else
+        arg4_l[m] = arg4[(n+ offset_b)*4+m];
 #endif
+
       }
 
 
@@ -562,8 +573,6 @@ __kernel void op_cuda_adt_calc(
                 arg1_l,
                 arg2_l,
                 arg3_l,
-                //arg4+(n + offset_b)*4,
-                //arg5+(n + offset_b)*1,
                 arg4_l,
                 arg5_l,
                 g_const_d );
@@ -593,6 +602,8 @@ __kernel void op_cuda_adt_calc(
 #endif
 #endif
 #endif
+#else
+        arg5[(n+ offset_b)*1+m] = arg5_l[m];
 #endif
       }
   }

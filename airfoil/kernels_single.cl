@@ -7,7 +7,7 @@ struct global_constants {
   float alpha;
   float qinf[4];
 };
-#define OP_WARPSIZE 32
+#define OP_WARPSIZE 4
 #define ZERO_float 0.0f
 #define ROUND_UP(bytes) (((bytes) + 15 ) & ~15 )
 #define MIN(a,b) ((a<b) ? (a) : (b))
@@ -149,18 +149,18 @@ __kernel void op_cuda_bres_calc(
         arg4_l[d] = ZERO_float;
 
       // user-supplied kernel call
-      bres_calc( ind_arg0_s+arg0_maps[n+offset_b]*2,
-                 ind_arg0_s+arg1_maps[n+offset_b]*2,
-                 ind_arg1_s+arg2_maps[n+offset_b]*4,
-                 ind_arg2_s+arg3_maps[n+offset_b]*1,
+      bres_calc( ind_arg0_s+arg0_maps[n + offset_b]*2,
+                 ind_arg0_s+arg1_maps[n + offset_b]*2,
+                 ind_arg1_s+arg2_maps[n + offset_b]*4,
+                 ind_arg2_s+arg3_maps[n + offset_b]*1,
                  arg4_l,
-                 arg5+(n+offset_b)*1, g_const_d);
+                 arg5+(n + offset_b)*1, g_const_d);
 
-      col2 = colors[n+offset_b];
+      col2 = colors[n + offset_b];
     }
 
     // store local variables
-    int arg4_map = arg4_maps[n+offset_b];
+    int arg4_map = arg4_maps[n + offset_b];
 
     for (int col=0; col<ncolor; col++) {
       if (col2==col) {
@@ -176,7 +176,7 @@ __kernel void op_cuda_bres_calc(
     ind_arg3[n%4+ind_arg3_map[n/4]*4] += ind_arg3_s[n];
 }
 //template < op_access reduction, class T >
-inline void op_reduction( __global volatile float *dat_g, float dat_l, op_access reduction, __local float *temp)
+inline void op_reduction( __global volatile float *dat_g, float dat_l, int reduction, __local float *temp)
 {
   int tid = get_local_id( 0 );
   int d   = get_local_size( 0 )>>1; 
@@ -374,7 +374,7 @@ __kernel void op_cuda_adt_calc(
   __global int   *nelems,
   __global int   *ncolors,
   __global int   *colors,
-  __local  char  *shared,
+  __local  float  *shared,
   __constant struct global_constants *g_const_d ) {
 
 
@@ -398,7 +398,7 @@ __kernel void op_cuda_adt_calc(
 
     // set shared memory pointers
     int nbytes = 0;
-    ind_arg0_s = (__local float *) &shared[ nbytes ];
+    ind_arg0_s = shared + nbytes/4;
   }
 
   barrier( CLK_LOCAL_MEM_FENCE );
