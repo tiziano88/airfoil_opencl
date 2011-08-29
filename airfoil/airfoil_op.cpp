@@ -70,6 +70,8 @@ cl_mem g_const_d;
 
 #include "op_lib.h"
 
+#define DIAGNOSTIC 1
+
 //
 // OP header file
 //
@@ -293,6 +295,11 @@ int main(int argc, char **argv){
     }
     */
 
+#ifdef DIAGNOSTIC
+    if (iter==1) {
+      dump_array( p_qold, "p_qold" );
+    }
+#endif
     //dump_array( p_qold, "p_qold" );
     //op_fetch_data( p_qold );
     //print_array( ( float *) p_qold->data, 4*p_qold->set->size, "p_qold" );
@@ -315,6 +322,11 @@ int main(int argc, char **argv){
                   op_arg_dat(p_q,  -1,OP_ID, 4,"float",OP_READ ),
                   op_arg_dat(p_adt,-1,OP_ID, 1,"float",OP_WRITE));
       
+#ifdef DIAGNOSTIC
+    if (iter==1 && k==0) {
+      dump_array( p_adt, "p_adt" );
+    }
+#endif
 
 //    calculate flux residual
 
@@ -328,6 +340,11 @@ int main(int argc, char **argv){
                   op_arg_dat(p_res,  0,pecell,4,"float",OP_INC ),
                   op_arg_dat(p_res,  1,pecell,4,"float",OP_INC ));
 
+#ifdef DIAGNOSTIC
+    if (iter==1 && k==0) {
+      dump_array( p_res, "p_res1" );
+    }
+#endif
 
       op_par_loop_bres_calc("bres_calc",bedges,
                   op_arg_dat(p_x,     0,pbedge, 2,"float",OP_READ),
@@ -337,6 +354,11 @@ int main(int argc, char **argv){
                   op_arg_dat(p_res,   0,pbecell,4,"float",OP_INC ),
                   op_arg_dat(p_bound,-1,OP_ID  ,1,"int",  OP_READ));
 
+#ifdef DIAGNOSTIC
+    if (iter==1 && k==0) {
+      dump_array( p_res, "p_res2" );
+    }
+#endif
 //    update flow field
 
       rms = 0.0;
@@ -348,6 +370,12 @@ int main(int argc, char **argv){
                   op_arg_dat(p_adt, -1,OP_ID, 1,"float",OP_READ ),
                   op_arg_gbl(&rms,1,"float",OP_INC));
     }
+
+#ifdef DIAGNOSTIC
+    if (iter==1) {
+      dump_array( p_q, "p_q1" );
+    }
+#endif
 
 //  print iteration history
 
@@ -362,7 +390,9 @@ int main(int argc, char **argv){
 
   op_timing_output();
 
-  //dump_array( p_q, "p_q" );
+#ifdef DIAGNOSTIC
+  dump_array( p_q, "p_q" );
+#endif
 
 
 
