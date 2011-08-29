@@ -1,0 +1,181 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.6	//
+MAX	op_lib_core.h	168;"	d
+MIN	op_lib_core.h	165;"	d
+OP_ARG_DAT	op_lib_core.h	/^typedef enum {OP_ARG_GBL, OP_ARG_DAT} op_arg_type;$/;"	e	enum:__anon2
+OP_ARG_GBL	op_lib_core.h	/^typedef enum {OP_ARG_GBL, OP_ARG_DAT} op_arg_type;$/;"	e	enum:__anon2
+OP_GBL	op_lib.h	77;"	d
+OP_ID	op_lib.h	76;"	d
+OP_INC	op_lib_core.h	/^typedef enum {OP_READ, OP_WRITE, OP_RW, OP_INC, OP_MIN, OP_MAX} op_access;$/;"	e	enum:__anon1
+OP_MAX	op_lib_core.h	/^typedef enum {OP_READ, OP_WRITE, OP_RW, OP_INC, OP_MIN, OP_MAX} op_access;$/;"	e	enum:__anon1
+OP_MIN	op_lib_core.h	/^typedef enum {OP_READ, OP_WRITE, OP_RW, OP_INC, OP_MIN, OP_MAX} op_access;$/;"	e	enum:__anon1
+OP_READ	op_lib_core.h	/^typedef enum {OP_READ, OP_WRITE, OP_RW, OP_INC, OP_MIN, OP_MAX} op_access;$/;"	e	enum:__anon1
+OP_RW	op_lib_core.h	/^typedef enum {OP_READ, OP_WRITE, OP_RW, OP_INC, OP_MIN, OP_MAX} op_access;$/;"	e	enum:__anon1
+OP_WARPSIZE	op_lib.cl.cpp	50;"	d	file:
+OP_WRITE	op_lib_core.h	/^typedef enum {OP_READ, OP_WRITE, OP_RW, OP_INC, OP_MIN, OP_MAX} op_access;$/;"	e	enum:__anon1
+OP_block_size	op_lib_core.c	/^    OP_block_size     =512,$/;"	v
+OP_cache_line_size	op_lib_core.c	/^    OP_cache_line_size=128;$/;"	v
+OP_consts_bytes	op_lib.cl.cpp	/^int   OP_consts_bytes=0,    OP_reduct_bytes=0;$/;"	v
+OP_consts_d	op_lib.cl.cpp	/^char *OP_consts_h, *OP_consts_d, *OP_reduct_h, *OP_reduct_d;$/;"	v
+OP_consts_h	op_lib.cl.cpp	/^char *OP_consts_h, *OP_consts_d, *OP_reduct_h, *OP_reduct_d;$/;"	v
+OP_dat_index	op_lib_core.c	/^    OP_dat_index =0, OP_dat_max =0,$/;"	v
+OP_dat_list	op_lib_core.c	/^op_dat    *OP_dat_list;$/;"	v
+OP_dat_max	op_lib_core.c	/^    OP_dat_index =0, OP_dat_max =0,$/;"	v
+OP_diags	op_lib_core.c	/^int OP_diags          =0,$/;"	v
+OP_kern_max	op_lib_core.c	/^                     OP_kern_max=0;$/;"	v
+OP_kernels	op_lib_core.c	/^op_kernel *OP_kernels;$/;"	v
+OP_map_index	op_lib_core.c	/^    OP_map_index =0, OP_map_max =0,$/;"	v
+OP_map_list	op_lib_core.c	/^op_map    *OP_map_list;$/;"	v
+OP_map_max	op_lib_core.c	/^    OP_map_index =0, OP_map_max =0,$/;"	v
+OP_part_size	op_lib_core.c	/^    OP_part_size      =0,$/;"	v
+OP_plan_index	op_lib_core.c	/^    OP_plan_index=0, OP_plan_max=0,$/;"	v
+OP_plan_max	op_lib_core.c	/^    OP_plan_index=0, OP_plan_max=0,$/;"	v
+OP_plans	op_lib_core.c	/^op_plan   *OP_plans;$/;"	v
+OP_reduct_bytes	op_lib.cl.cpp	/^int   OP_consts_bytes=0,    OP_reduct_bytes=0;$/;"	v
+OP_reduct_d	op_lib.cl.cpp	/^char *OP_consts_h, *OP_consts_d, *OP_reduct_h, *OP_reduct_d;$/;"	v
+OP_reduct_h	op_lib.cl.cpp	/^char *OP_consts_h, *OP_consts_d, *OP_reduct_h, *OP_reduct_d;$/;"	v
+OP_set_index	op_lib_core.c	/^int OP_set_index =0, OP_set_max =0,$/;"	v
+OP_set_list	op_lib_core.c	/^op_set    *OP_set_list;$/;"	v
+OP_set_max	op_lib_core.c	/^int OP_set_index =0, OP_set_max =0,$/;"	v
+ROUND_UP	op_lib_core.h	176;"	d
+ZERO_bool	op_lib.h	71;"	d
+ZERO_double	op_lib.h	65;"	d
+ZERO_float	op_lib.h	66;"	d
+ZERO_int	op_lib.h	67;"	d
+ZERO_ll	op_lib.h	69;"	d
+ZERO_uint	op_lib.h	68;"	d
+ZERO_ull	op_lib.h	70;"	d
+__NO_STD_VECTOR	op_lib.cl.cpp	44;"	d	file:
+acc	op_lib_core.h	/^  op_access   acc;$/;"	m	struct:__anon6
+accs	op_lib_core.h	/^  op_access   *accs;$/;"	m	struct:__anon7
+argtype	op_lib_core.h	/^  op_arg_type argtype;$/;"	m	struct:__anon6
+blkmap	op_lib_core.h	/^  int        *blkmap;   \/\/ block mapping$/;"	m	struct:__anon7
+comp	op_lib_core.c	/^int comp(const void *a2, const void *b2) {$/;"	f
+count	op_lib_core.h	/^  int         count;    \/\/ number of times called$/;"	m	struct:__anon7
+count	op_lib_core.h	/^  int         count;    \/\/ number of times called$/;"	m	struct:__anon8
+cutilCheckMsg	op_lib.cl.cpp	64;"	d	file:
+cutilDeviceInit	op_lib.cl.cpp	/^inline void cutilDeviceInit(int argc, char **argv) {$/;"	f
+cutilSafeCall	op_lib.cl.cpp	62;"	d	file:
+dat	op_lib_core.h	/^  op_dat      dat;    \/\/ dataset$/;"	m	struct:__anon6
+data	op_lib_core.h	/^  char       *data,   \/\/ data on host$/;"	m	struct:__anon5
+data	op_lib_core.h	/^  char       *data,   \/\/ data on host$/;"	m	struct:__anon6
+data_d	op_lib_core.h	/^             *data_d; \/\/ data on device (for CUDA execution)$/;"	m	struct:__anon6
+data_d	op_lib_core.h	/^  cl_mem      data_d; \/\/ data on device (GPU)$/;"	m	struct:__anon5
+dats	op_lib_core.h	/^  op_dat      *dats;$/;"	m	struct:__anon7
+dim	op_lib_core.h	/^  int         dim,    \/\/ dimension of data$/;"	m	struct:__anon5
+dim	op_lib_core.h	/^  int         dim,    \/\/ dimension of data$/;"	m	struct:__anon6
+dim	op_lib_core.h	/^  int         dim,    \/\/ dimension of pointer$/;"	m	struct:__anon4
+from	op_lib_core.h	/^  op_set      from,   \/\/ set pointed from$/;"	m	struct:__anon4
+idx	op_lib_core.h	/^              idx,    \/\/$/;"	m	struct:__anon6
+idxs	op_lib_core.h	/^  int         *idxs;$/;"	m	struct:__anon7
+ind_maps	op_lib_core.h	/^  int       **ind_maps; \/\/ pointers for indirect datasets$/;"	m	struct:__anon7
+ind_offs	op_lib_core.h	/^  int        *ind_offs; \/\/ block offsets for indirect datasets$/;"	m	struct:__anon7
+ind_sizes	op_lib_core.h	/^  int        *ind_sizes;\/\/ block sizes for indirect datasets$/;"	m	struct:__anon7
+index	op_lib_core.h	/^  int         index;  \/\/ index$/;"	m	struct:__anon3
+index	op_lib_core.h	/^  int         index;  \/\/ index$/;"	m	struct:__anon4
+index	op_lib_core.h	/^  int         index;  \/\/ index$/;"	m	struct:__anon5
+index	op_lib_core.h	/^  int         index;  \/\/ index$/;"	m	struct:__anon6
+ll	op_lib_core.h	/^typedef long long ll;$/;"	t
+loc_maps	op_lib_core.h	/^  short     **loc_maps; \/\/ maps to local indices, renumbered as needed$/;"	m	struct:__anon7
+map	op_lib_core.h	/^             *map;    \/\/ array defining pointer$/;"	m	struct:__anon4
+map	op_lib_core.h	/^  op_map      map;    \/\/ indirect mapping$/;"	m	struct:__anon6
+maps	op_lib_core.h	/^  op_map      *maps;$/;"	m	struct:__anon7
+mvConstArraysToDevice	op_lib.cl.cpp	/^void mvConstArraysToDevice(int consts_bytes) {$/;"	f
+mvReductArraysToDevice	op_lib.cl.cpp	/^void mvReductArraysToDevice(int reduct_bytes) {$/;"	f
+mvReductArraysToHost	op_lib.cl.cpp	/^void mvReductArraysToHost(int reduct_bytes) {$/;"	f
+name	op_lib_core.h	/^             *name;   \/\/ name of dataset$/;"	m	struct:__anon5
+name	op_lib_core.h	/^  char const  *name;$/;"	m	struct:__anon7
+name	op_lib_core.h	/^  char const *name;     \/\/ name of kernel function$/;"	m	struct:__anon8
+name	op_lib_core.h	/^  char const *name;   \/\/ name of pointer$/;"	m	struct:__anon4
+name	op_lib_core.h	/^  char const *name;   \/\/ name of set$/;"	m	struct:__anon3
+nargs	op_lib_core.h	/^  int          nargs, ninds, part_size;$/;"	m	struct:__anon7
+nblocks	op_lib_core.h	/^  int         nblocks;  \/\/ number of blocks$/;"	m	struct:__anon7
+ncolblk	op_lib_core.h	/^  int        *ncolblk;  \/\/ number of blocks for each color$/;"	m	struct:__anon7
+ncolors	op_lib_core.h	/^  int         ncolors;  \/\/ number of block colors$/;"	m	struct:__anon7
+nelems	op_lib_core.h	/^  int        *nelems;   \/\/ number of elements in each block$/;"	m	struct:__anon7
+nindirect	op_lib_core.h	/^  int        *nindirect;\/\/ total sizes for indirect datasets$/;"	m	struct:__anon7
+ninds	op_lib_core.h	/^  int          nargs, ninds, part_size;$/;"	m	struct:__anon7
+nshared	op_lib_core.h	/^  int         nshared;  \/\/ bytes of shared memory required$/;"	m	struct:__anon7
+nthrcol	op_lib_core.h	/^  int        *nthrcol;  \/\/ number of thread colors for each block$/;"	m	struct:__anon7
+offset	op_lib_core.h	/^  int        *offset;   \/\/ offset for primary set$/;"	m	struct:__anon7
+op_access	op_lib_core.h	/^typedef enum {OP_READ, OP_WRITE, OP_RW, OP_INC, OP_MIN, OP_MAX} op_access;$/;"	t	typeref:enum:__anon1
+op_arg	op_lib_core.h	/^} op_arg;$/;"	t	typeref:struct:__anon6
+op_arg_check	op_lib_core.c	/^void op_arg_check(op_set set,int m,op_arg arg,int *ninds,const char *name){$/;"	f
+op_arg_dat	op_lib_core.c	/^op_arg op_arg_dat(op_dat dat, int idx, op_map map,$/;"	f
+op_arg_gbl	op_lib.h	/^op_arg op_arg_gbl(T *data, int dim, char const *type, op_access acc){$/;"	f
+op_arg_gbl_core	op_lib_core.c	/^op_arg op_arg_gbl_core(char *data, int dim,$/;"	f
+op_arg_set	op_seq.h	/^void op_arg_set(int n, op_arg arg, char **p_arg){                         $/;"	f
+op_arg_type	op_lib_core.h	/^typedef enum {OP_ARG_GBL, OP_ARG_DAT} op_arg_type;$/;"	t	typeref:enum:__anon2
+op_cpHostToDevice	op_lib.cl.cpp	/^void op_cpHostToDevice(cl_mem *data_d, void **data_h, int size) {$/;"	f
+op_dat	op_lib_core.h	/^typedef op_dat_core * op_dat;$/;"	t
+op_dat_core	op_lib_core.h	/^} op_dat_core;$/;"	t	typeref:struct:__anon5
+op_decl_const	op_lib.h	/^void op_decl_const(int dim, char const *type, T *data){$/;"	f
+op_decl_const2	op_lib.h	/^void op_decl_const2(char const *name, int dim, char const *type, T *data){$/;"	f
+op_decl_const_char	op_lib.cpp	/^void op_decl_const_char(int, char const*, int, char*, char const*){}$/;"	f
+op_decl_dat	op_lib.h	/^op_dat op_decl_dat(op_set set, int dim, char const *type,$/;"	f
+op_decl_dat_char	op_lib.cl.cpp	/^op_dat op_decl_dat_char(op_set set, int dim, char const *type,$/;"	f
+op_decl_dat_char	op_lib.cpp	/^op_dat op_decl_dat_char(op_set set, int dim, char const *type,$/;"	f
+op_decl_dat_core	op_lib_core.c	/^op_dat op_decl_dat_core(op_set set, int dim, char const *type,$/;"	f
+op_decl_map	op_lib_core.c	/^op_map op_decl_map(op_set from, op_set to, int dim, int *imap,$/;"	f
+op_decl_set	op_lib_core.c	/^op_set op_decl_set(int size, char const *name){$/;"	f
+op_diagnostic_output	op_lib_core.c	/^void op_diagnostic_output(){$/;"	f
+op_err_print	op_lib_core.c	/^void op_err_print(const char *error_string, int m, const char *name) {$/;"	f
+op_exit	op_lib.cl.cpp	/^void op_exit(){$/;"	f
+op_exit	op_lib.cpp	/^void op_exit(){$/;"	f
+op_exit_core	op_lib_core.c	/^void op_exit_core(){$/;"	f
+op_fetch_data	op_lib.cl.cpp	/^void op_fetch_data(op_dat dat) {$/;"	f
+op_fetch_data	op_lib.cpp	/^void op_fetch_data(op_dat dat) {}$/;"	f
+op_init	op_lib.cl.cpp	/^void op_init(int argc, char **argv, int diags){$/;"	f
+op_init	op_lib.cpp	/^void op_init(int argc, char **argv, int diags){$/;"	f
+op_init_core	op_lib_core.c	/^void op_init_core(int argc, char **argv, int diags){$/;"	f
+op_kernel	op_lib_core.h	/^} op_kernel;$/;"	t	typeref:struct:__anon8
+op_map	op_lib_core.h	/^typedef op_map_core * op_map;$/;"	t
+op_map_core	op_lib_core.h	/^} op_map_core;$/;"	t	typeref:struct:__anon4
+op_mvHostToDevice	op_lib.cl.cpp	/^void op_mvHostToDevice(void **map, int size) {$/;"	f
+op_par_loop	op_seq.h	/^void op_par_loop(void (*kernel)( T0* ),                                   $/;"	f
+op_par_loop	op_seq.h	/^void op_par_loop(void (*kernel)( T0*, T1* ),                              $/;"	f
+op_par_loop	op_seq.h	/^void op_par_loop(void (*kernel)( T0*, T1*, T2* ),                         $/;"	f
+op_par_loop	op_seq.h	/^void op_par_loop(void (*kernel)( T0*, T1*, T2*, T3* ),                    $/;"	f
+op_par_loop	op_seq.h	/^void op_par_loop(void (*kernel)( T0*, T1*, T2*, T3*,                      $/;"	f
+op_plan	op_lib_core.h	/^} op_plan;$/;"	t	typeref:struct:__anon7
+op_plan_check	op_lib_core.c	/^void op_plan_check(op_plan OP_plan, int ninds, int *inds) {$/;"	f
+op_plan_core	op_lib_core.c	/^op_plan * op_plan_core(char const *name, op_set set, int part_size,$/;"	f
+op_plan_get	op_lib.cl.cpp	/^op_plan *op_plan_get(char const *name, op_set set, int part_size,$/;"	f
+op_plan_get	op_lib.cpp	/^op_plan * op_plan_get(char const *name, op_set set, int part_size,$/;"	f
+op_reduction	op_lib.cl.cpp	/^__inline__ __device__ void op_reduction(volatile T *dat_g, T dat_l)$/;"	f
+op_set	op_lib_core.h	/^typedef op_set_core * op_set;$/;"	t
+op_set_core	op_lib_core.h	/^} op_set_core;$/;"	t	typeref:struct:__anon3
+op_timers	op_lib_core.c	/^void op_timers(double *cpu, double *et) {$/;"	f
+op_timing_output	op_lib_core.c	/^void op_timing_output() {$/;"	f
+op_timing_realloc	op_lib_core.c	/^void op_timing_realloc(int kernel){$/;"	f
+part_size	op_lib_core.h	/^  int          nargs, ninds, part_size;$/;"	m	struct:__anon7
+reallocConstArrays	op_lib.cl.cpp	/^void reallocConstArrays(int consts_bytes) {$/;"	f
+reallocReductArrays	op_lib.cl.cpp	/^void reallocReductArrays(int reduct_bytes) {$/;"	f
+set	op_lib_core.h	/^  op_set       set;$/;"	m	struct:__anon7
+set	op_lib_core.h	/^  op_set      set;    \/\/ set on which data is defined$/;"	m	struct:__anon5
+size	op_lib_core.h	/^              size;   \/\/ size (for sequential execution)$/;"	m	struct:__anon6
+size	op_lib_core.h	/^              size;   \/\/ size of each element in dataset$/;"	m	struct:__anon5
+size	op_lib_core.h	/^  int         size;   \/\/ number of elements in set$/;"	m	struct:__anon3
+std	Makefile	/^		gcc -g -std=c99 -c op_lib_core.c$/;"	m
+thrcol	op_lib_core.h	/^  int        *thrcol;   \/\/ thread colors$/;"	m	struct:__anon7
+time	op_lib_core.h	/^  float       time;     \/\/ total execution time$/;"	m	struct:__anon8
+to	op_lib_core.h	/^              to;     \/\/ set pointed to$/;"	m	struct:__anon4
+transfer	op_lib_core.h	/^  float       transfer; \/\/ bytes of data transfer (used)$/;"	m	struct:__anon8
+transfer	op_lib_core.h	/^  float       transfer; \/\/ bytes of data transfer per kernel call$/;"	m	struct:__anon7
+transfer2	op_lib_core.h	/^  float       transfer2;\/\/ bytes of cache line per kernel call$/;"	m	struct:__anon7
+transfer2	op_lib_core.h	/^  float       transfer2;\/\/ bytes of data transfer (total)$/;"	m	struct:__anon8
+type	op_lib_core.h	/^  char const *type,   \/\/ datatype$/;"	m	struct:__anon5
+type	op_lib_core.h	/^  char const *type;   \/\/ datatype$/;"	m	struct:__anon6
+type_error	op_lib.h	/^inline int type_error(const bool   *,const char *type){return strcmp(type,"bool"  );}$/;"	f
+type_error	op_lib.h	/^inline int type_error(const double *,const char *type){return strcmp(type,"double");}$/;"	f
+type_error	op_lib.h	/^inline int type_error(const float  *,const char *type){return strcmp(type,"float" );}$/;"	f
+type_error	op_lib.h	/^inline int type_error(const int    *,const char *type){return strcmp(type,"int"   );}$/;"	f
+type_error	op_lib.h	/^inline int type_error(const ll     *,const char *type){return strcmp(type,"ll"    );}$/;"	f
+type_error	op_lib.h	/^inline int type_error(const uint   *,const char *type){return strcmp(type,"uint"  );}$/;"	f
+type_error	op_lib.h	/^inline int type_error(const ull    *,const char *type){return strcmp(type,"ull"   );}$/;"	f
+uint	op_lib_core.h	/^typedef unsigned int uint;$/;"	t
+ull	op_lib_core.h	/^typedef unsigned long long ull;$/;"	t

@@ -11,13 +11,13 @@ endif
 ifdef CUDA_HOME
   OPENCL		:=$(CUDA_HOME)
 endif
-export OPENCL
 
-INC		:= -I$(OPENCL)/include -I$(OP2) -I.
-LIB		:= -L$(OPENCL)/lib64 
-OCLLIB	:= -L/usr/lib64 -L$(OPENCL)/lib/x86_64 -lOpenCL
-#/usr/lib64/lobOpenCL.so.1
-OCLINC	:= -I$(OP2) -I. $(INC)
+  export OPENCL
+  INC		:= -I$(OPENCL)/include -I$(OP2) -I.
+  LIB		:= -L$(OPENCL)/lib64 
+  OCLLIB	:= -L/usr/lib64 -L$(OPENCL)/lib/x86_64 -lOpenCL
+  #/usr/lib64/lobOpenCL.so.1
+  OCLINC	:= -I$(OP2) -I. $(INC)
 
 
 #

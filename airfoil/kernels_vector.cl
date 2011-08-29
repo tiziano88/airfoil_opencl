@@ -149,18 +149,18 @@ __kernel void op_cuda_bres_calc(
         arg4_l[d] = ZERO_float;
 
       // user-supplied kernel call
-      bres_calc( ind_arg0_s+arg0_maps[n+offset_b]*2,
-                 ind_arg0_s+arg1_maps[n+offset_b]*2,
-                 ind_arg1_s+arg2_maps[n+offset_b]*4,
-                 ind_arg2_s+arg3_maps[n+offset_b]*1,
+      bres_calc( ind_arg0_s+arg0_maps[n + offset_b]*2,
+                 ind_arg0_s+arg1_maps[n + offset_b]*2,
+                 ind_arg1_s+arg2_maps[n + offset_b]*4,
+                 ind_arg2_s+arg3_maps[n + offset_b]*1,
                  arg4_l,
-                 arg5+(n+offset_b)*1, g_const_d);
+                 arg5+(n + offset_b)*1, g_const_d);
 
-      col2 = colors[n+offset_b];
+      col2 = colors[n + offset_b];
     }
 
     // store local variables
-    int arg4_map = arg4_maps[n+offset_b];
+    int arg4_map = arg4_maps[n + offset_b];
 
     for (int col=0; col<ncolor; col++) {
       if (col2==col) {
@@ -176,7 +176,7 @@ __kernel void op_cuda_bres_calc(
     ind_arg3[n%4+ind_arg3_map[n/4]*4] += ind_arg3_s[n];
 }
 //template < op_access reduction, class T >
-inline void op_reduction( __global volatile float *dat_g, float dat_l, op_access reduction, __local float *temp)
+inline void op_reduction( __global volatile float *dat_g, float dat_l, int reduction, __local float *temp)
 {
   int tid = get_local_id( 0 );
   int d   = get_local_size( 0 )>>1; 
@@ -329,9 +329,10 @@ __kernel void op_cuda_update(
     op_reduction(&arg4[d+get_group_id(0)*1],arg4_l[d],OP_INC, temp);
 }
 
-
-inline void adt_calc(__local float *x1,__local float *x2,__local float *x3,__local float *x4,__global float *q,__global float *adt, __constant struct global_constants *g_const_d){
-  float dx,dy, ri,u,v,c;
+#define VEC 16
+#define VECTYPE float16
+inline void adt_calc(VECTYPE *x1,VECTYPE *x2,VECTYPE *x3,VECTYPE *x4,VECTYPE *q,VECTYPE *adt, __constant struct global_constants *g_const_d){
+  VECTYPE dx,dy, ri,u,v,c;
 
   ri =  1.0f/q[0];
   u  =   ri*q[1];
@@ -374,7 +375,7 @@ __kernel void op_cuda_adt_calc(
   __global int   *nelems,
   __global int   *ncolors,
   __global int   *colors,
-  __local  char  *shared,
+  __local  float  *shared,
   __constant struct global_constants *g_const_d ) {
 
 
@@ -383,6 +384,13 @@ __kernel void op_cuda_adt_calc(
   __local int ind_arg0_size;
   __local float * __local ind_arg0_s;
   __local int    nelem, offset_b;
+
+  VECTYPE arg0_l[2];
+  VECTYPE arg1_l[2];
+  VECTYPE arg2_l[2];
+  VECTYPE arg3_l[2];
+  VECTYPE arg4_l[4];
+  VECTYPE arg5_l[1];
 
   if ( get_local_id( 0 ) == 0 ) {
 
@@ -398,7 +406,7 @@ __kernel void op_cuda_adt_calc(
 
     // set shared memory pointers
     int nbytes = 0;
-    ind_arg0_s = (__local float *) &shared[ nbytes ];
+    ind_arg0_s = shared + nbytes/4;
   }
 
   barrier( CLK_LOCAL_MEM_FENCE );
@@ -410,16 +418,183 @@ __kernel void op_cuda_adt_calc(
   barrier( CLK_LOCAL_MEM_FENCE );
 
   // process set elements
-  for (int n=get_local_id(0); n<nelem; n+=get_local_size(0)) {
+  for (int n=get_local_id(0)*VEC; n<nelem; n+=get_local_size(0)*VEC) {
+
+      for (int m=0; m<2; m++) { 
+#if VEC>1
+        arg0_l[m].s0 = ind_arg0_s[arg0_maps[n+0x0 + offset_b]*2+m];
+        arg0_l[m].s1 = ind_arg0_s[arg0_maps[n+0x1 + offset_b]*2+m];
+#if VEC>2
+        arg0_l[m].s2 = ind_arg0_s[arg0_maps[n+0x2 + offset_b]*2+m];
+        arg0_l[m].s3 = ind_arg0_s[arg0_maps[n+0x3 + offset_b]*2+m];
+#if VEC>4
+        arg0_l[m].s4 = ind_arg0_s[arg0_maps[n+0x4 + offset_b]*2+m];
+        arg0_l[m].s5 = ind_arg0_s[arg0_maps[n+0x5 + offset_b]*2+m];
+        arg0_l[m].s6 = ind_arg0_s[arg0_maps[n+0x6 + offset_b]*2+m];
+        arg0_l[m].s7 = ind_arg0_s[arg0_maps[n+0x7 + offset_b]*2+m];
+#if VEC>8
+        arg0_l[m].s8 = ind_arg0_s[arg0_maps[n+0x8 + offset_b]*2+m];
+        arg0_l[m].s9 = ind_arg0_s[arg0_maps[n+0x9 + offset_b]*2+m];
+        arg0_l[m].sa = ind_arg0_s[arg0_maps[n+0xa + offset_b]*2+m];
+        arg0_l[m].sb = ind_arg0_s[arg0_maps[n+0xb + offset_b]*2+m];
+        arg0_l[m].sc = ind_arg0_s[arg0_maps[n+0xc + offset_b]*2+m];
+        arg0_l[m].sd = ind_arg0_s[arg0_maps[n+0xd + offset_b]*2+m];
+        arg0_l[m].se = ind_arg0_s[arg0_maps[n+0xd + offset_b]*2+m];
+        arg0_l[m].sf = ind_arg0_s[arg0_maps[n+0xf + offset_b]*2+m];
+#endif
+#endif
+#endif
+#endif
+      }
+
+      for (int m=0; m<2; m++) { 
+#if VEC>1
+        arg1_l[m].s0 = ind_arg0_s[arg1_maps[n+0x0 + offset_b]*2+m];
+        arg1_l[m].s1 = ind_arg0_s[arg1_maps[n+0x1 + offset_b]*2+m];
+#if VEC>2
+        arg1_l[m].s2 = ind_arg0_s[arg1_maps[n+0x2 + offset_b]*2+m];
+        arg1_l[m].s3 = ind_arg0_s[arg1_maps[n+0x3 + offset_b]*2+m];
+#if VEC>4
+        arg1_l[m].s4 = ind_arg0_s[arg1_maps[n+0x4 + offset_b]*2+m];
+        arg1_l[m].s5 = ind_arg0_s[arg1_maps[n+0x5 + offset_b]*2+m];
+        arg1_l[m].s6 = ind_arg0_s[arg1_maps[n+0x6 + offset_b]*2+m];
+        arg1_l[m].s7 = ind_arg0_s[arg1_maps[n+0x7 + offset_b]*2+m];
+#if VEC>8
+        arg1_l[m].s8 = ind_arg0_s[arg1_maps[n+0x8 + offset_b]*2+m];
+        arg1_l[m].s9 = ind_arg0_s[arg1_maps[n+0x9 + offset_b]*2+m];
+        arg1_l[m].sa = ind_arg0_s[arg1_maps[n+0xa + offset_b]*2+m];
+        arg1_l[m].sb = ind_arg0_s[arg1_maps[n+0xb + offset_b]*2+m];
+        arg1_l[m].sc = ind_arg0_s[arg1_maps[n+0xc + offset_b]*2+m];
+        arg1_l[m].sd = ind_arg0_s[arg1_maps[n+0xd + offset_b]*2+m];
+        arg1_l[m].se = ind_arg0_s[arg1_maps[n+0xe + offset_b]*2+m];
+        arg1_l[m].sf = ind_arg0_s[arg1_maps[n+0xf + offset_b]*2+m];
+#endif
+#endif
+#endif
+#endif
+      }
+
+      for (int m=0; m<2; m++) { 
+#if VEC>1
+        arg2_l[m].s0 = ind_arg0_s[arg2_maps[n+0x0 + offset_b]*2+m];
+        arg2_l[m].s1 = ind_arg0_s[arg2_maps[n+0x1 + offset_b]*2+m];
+#if VEC>2
+        arg2_l[m].s2 = ind_arg0_s[arg2_maps[n+0x2 + offset_b]*2+m];
+        arg2_l[m].s3 = ind_arg0_s[arg2_maps[n+0x3 + offset_b]*2+m];
+#if VEC>4
+        arg2_l[m].s4 = ind_arg0_s[arg2_maps[n+0x4 + offset_b]*2+m];
+        arg2_l[m].s5 = ind_arg0_s[arg2_maps[n+0x5 + offset_b]*2+m];
+        arg2_l[m].s6 = ind_arg0_s[arg2_maps[n+0x6 + offset_b]*2+m];
+        arg2_l[m].s7 = ind_arg0_s[arg2_maps[n+0x7 + offset_b]*2+m];
+#if VEC>8
+        arg2_l[m].s8 = ind_arg0_s[arg2_maps[n+0x8 + offset_b]*2+m];
+        arg2_l[m].s9 = ind_arg0_s[arg2_maps[n+0x9 + offset_b]*2+m];
+        arg2_l[m].sa = ind_arg0_s[arg2_maps[n+0xa + offset_b]*2+m];
+        arg2_l[m].sb = ind_arg0_s[arg2_maps[n+0xb + offset_b]*2+m];
+        arg2_l[m].sc = ind_arg0_s[arg2_maps[n+0xc + offset_b]*2+m];
+        arg2_l[m].sd = ind_arg0_s[arg2_maps[n+0xd + offset_b]*2+m];
+        arg2_l[m].se = ind_arg0_s[arg2_maps[n+0xe + offset_b]*2+m];
+        arg2_l[m].sf = ind_arg0_s[arg2_maps[n+0xf + offset_b]*2+m];
+#endif
+#endif
+#endif
+#endif
+      }
+
+      for (int m=0; m<2; m++) { 
+#if VEC>1
+        arg3_l[m].s0 = ind_arg0_s[arg3_maps[n+0x0 + offset_b]*2+m];
+        arg3_l[m].s1 = ind_arg0_s[arg3_maps[n+0x1 + offset_b]*2+m];
+#if VEC>2
+        arg3_l[m].s2 = ind_arg0_s[arg3_maps[n+0x2 + offset_b]*2+m];
+        arg3_l[m].s3 = ind_arg0_s[arg3_maps[n+0x3 + offset_b]*2+m];
+#if VEC>4
+        arg3_l[m].s4 = ind_arg0_s[arg3_maps[n+0x4 + offset_b]*2+m];
+        arg3_l[m].s5 = ind_arg0_s[arg3_maps[n+0x5 + offset_b]*2+m];
+        arg3_l[m].s6 = ind_arg0_s[arg3_maps[n+0x6 + offset_b]*2+m];
+        arg3_l[m].s7 = ind_arg0_s[arg3_maps[n+0x7 + offset_b]*2+m];
+#if VEC>8
+        arg3_l[m].s8 = ind_arg0_s[arg3_maps[n+0x8 + offset_b]*2+m];
+        arg3_l[m].s9 = ind_arg0_s[arg3_maps[n+0x9 + offset_b]*2+m];
+        arg3_l[m].sa = ind_arg0_s[arg3_maps[n+0xa + offset_b]*2+m];
+        arg3_l[m].sb = ind_arg0_s[arg3_maps[n+0xb + offset_b]*2+m];
+        arg3_l[m].sc = ind_arg0_s[arg3_maps[n+0xc + offset_b]*2+m];
+        arg3_l[m].sd = ind_arg0_s[arg3_maps[n+0xd + offset_b]*2+m];
+        arg3_l[m].se = ind_arg0_s[arg3_maps[n+0xe + offset_b]*2+m];
+        arg3_l[m].sf = ind_arg0_s[arg3_maps[n+0xf + offset_b]*2+m];
+#endif
+#endif
+#endif
+#endif
+      }
+
+      //TODO: use vload4 and then rearrange?
+      for (int m=0; m<4; m++) { 
+#if VEC>1
+        arg4_l[m].s0 = arg4[(n+0x0 + offset_b)*4+m];
+        arg4_l[m].s1 = arg4[(n+0x1 + offset_b)*4+m];
+#if VEC>2
+        arg4_l[m].s2 = arg4[(n+0x2 + offset_b)*4+m];
+        arg4_l[m].s3 = arg4[(n+0x3 + offset_b)*4+m];
+#if VEC>4
+        arg4_l[m].s4 = arg4[(n+0x4 + offset_b)*4+m];
+        arg4_l[m].s5 = arg4[(n+0x5 + offset_b)*4+m];
+        arg4_l[m].s6 = arg4[(n+0x6 + offset_b)*4+m];
+        arg4_l[m].s7 = arg4[(n+0x7 + offset_b)*4+m];
+#if VEC>8
+        arg4_l[m].s8 = arg4[(n+0x8 + offset_b)*4+m];
+        arg4_l[m].s9 = arg4[(n+0x9 + offset_b)*4+m];
+        arg4_l[m].sa = arg4[(n+0xa + offset_b)*4+m];
+        arg4_l[m].sb = arg4[(n+0xb + offset_b)*4+m];
+        arg4_l[m].sc = arg4[(n+0xc + offset_b)*4+m];
+        arg4_l[m].sd = arg4[(n+0xd + offset_b)*4+m];
+        arg4_l[m].se = arg4[(n+0xe + offset_b)*4+m];
+        arg4_l[m].sf = arg4[(n+0xf + offset_b)*4+m];
+#endif
+#endif
+#endif
+#endif
+      }
+
 
       // user-supplied kernel call
-      adt_calc( ind_arg0_s+arg0_maps[n+offset_b]*2,
-                ind_arg0_s+arg1_maps[n+offset_b]*2,
-                ind_arg0_s+arg2_maps[n+offset_b]*2,
-                ind_arg0_s+arg3_maps[n+offset_b]*2,
-                arg4+(n+offset_b)*4,
-                arg5+(n+offset_b)*1,
+      adt_calc( arg0_l,
+                arg1_l,
+                arg2_l,
+                arg3_l,
+                //arg4+(n + offset_b)*4,
+                //arg5+(n + offset_b)*1,
+                arg4_l,
+                arg5_l,
                 g_const_d );
+
+
+      for (int m=0; m<1; m++) {
+#if VEC>1
+        arg5[(n+0x0 + offset_b)*1+m] = arg5_l[m].s0;
+        arg5[(n+0x1 + offset_b)*1+m] = arg5_l[m].s1;
+#if VEC>2
+        arg5[(n+0x2 + offset_b)*1+m] = arg5_l[m].s2;
+        arg5[(n+0x3 + offset_b)*1+m] = arg5_l[m].s3;
+#if VEC>4
+        arg5[(n+0x4 + offset_b)*1+m] = arg5_l[m].s4;
+        arg5[(n+0x5 + offset_b)*1+m] = arg5_l[m].s5;
+        arg5[(n+0x6 + offset_b)*1+m] = arg5_l[m].s6;
+        arg5[(n+0x7 + offset_b)*1+m] = arg5_l[m].s7;
+#if VEC>8
+        arg5[(n+0x8 + offset_b)*1+m] = arg5_l[m].s8;
+        arg5[(n+0x9 + offset_b)*1+m] = arg5_l[m].s9;
+        arg5[(n+0xa + offset_b)*1+m] = arg5_l[m].sa;
+        arg5[(n+0xb + offset_b)*1+m] = arg5_l[m].sb;
+        arg5[(n+0xc + offset_b)*1+m] = arg5_l[m].sc;
+        arg5[(n+0xd + offset_b)*1+m] = arg5_l[m].sd;
+        arg5[(n+0xe + offset_b)*1+m] = arg5_l[m].se;
+        arg5[(n+0xf + offset_b)*1+m] = arg5_l[m].sf;
+#endif
+#endif
+#endif
+#endif
+      }
   }
 
 }
@@ -556,7 +731,7 @@ __kernel void op_cuda_res_calc(
   __global int   *nelems,
   __global int   *ncolors,
   __global int   *colors,
-  __local  char *shared, 
+  __local  float *shared, 
   __constant struct global_constants *g_const_d) {
 
   float arg6_l[4];
@@ -597,13 +772,13 @@ __kernel void op_cuda_res_calc(
     // set shared memory pointers
 
     int nbytes = 0;
-    ind_arg0_s = (__local float * ) &shared[nbytes];
+    ind_arg0_s = shared + nbytes/sizeof(float);
     nbytes    += ROUND_UP(ind_arg0_size*sizeof(float)*2);
-    ind_arg1_s = (__local float * ) &shared[nbytes];
+    ind_arg1_s = shared + nbytes/sizeof(float);
     nbytes    += ROUND_UP(ind_arg1_size*sizeof(float)*4);
-    ind_arg2_s = (__local float * ) &shared[nbytes];
+    ind_arg2_s = shared + nbytes/sizeof(float);
     nbytes    += ROUND_UP(ind_arg2_size*sizeof(float)*1);
-    ind_arg3_s = (__local float * ) &shared[nbytes];
+    ind_arg3_s = shared + nbytes/sizeof(float);
   }
   barrier( CLK_LOCAL_MEM_FENCE ); // make sure all of above completed
   // copy indirect datasets into shared memory or zero increment
@@ -628,19 +803,19 @@ __kernel void op_cuda_res_calc(
       for (int d=0; d<4; d++)
         arg7_l[d] = 0.0f;
       // user-supplied kernel call
-      res_calc( ind_arg0_s+arg0_maps[n+offset_b]*2,
-                ind_arg0_s+arg1_maps[n+offset_b]*2,
-                ind_arg1_s+arg2_maps[n+offset_b]*4,
-                ind_arg1_s+arg3_maps[n+offset_b]*4,
-                ind_arg2_s+arg4_maps[n+offset_b]*1,
-                ind_arg2_s+arg5_maps[n+offset_b]*1,
+      res_calc( ind_arg0_s+arg0_maps[n + offset_b]*2,
+                ind_arg0_s+arg1_maps[n + offset_b]*2,
+                ind_arg1_s+arg2_maps[n + offset_b]*4,
+                ind_arg1_s+arg3_maps[n + offset_b]*4,
+                ind_arg2_s+arg4_maps[n + offset_b]*1,
+                ind_arg2_s+arg5_maps[n + offset_b]*1,
                 arg6_l,
                 arg7_l, g_const_d );
-      col2 = colors[n+offset_b];
+      col2 = colors[n + offset_b];
     }
     // store local variables
-    int arg6_map = arg6_maps[n+offset_b];
-    int arg7_map = arg7_maps[n+offset_b];
+    int arg6_map = arg6_maps[n + offset_b];
+    int arg7_map = arg7_maps[n + offset_b];
     for (int col=0; col<ncolor; col++) {
       if (col2==col) {
         for (int d=0; d<4; d++)
