@@ -324,7 +324,10 @@ int main(int argc, char **argv){
       
 #ifdef DIAGNOSTIC
     if (iter==1 && k==0) {
-      dump_array( p_adt, "p_adt" );
+      dump_array( p_adt, "p_adt0" );
+    }
+    if (iter==1 && k==1) {
+      dump_array( p_adt, "p_adt1" );
     }
 #endif
 
@@ -342,6 +345,9 @@ int main(int argc, char **argv){
 
 #ifdef DIAGNOSTIC
     if (iter==1 && k==0) {
+      dump_array( p_res, "p_res0" );
+    }
+    if (iter==1 && k==1) {
       dump_array( p_res, "p_res1" );
     }
 #endif
@@ -356,7 +362,10 @@ int main(int argc, char **argv){
 
 #ifdef DIAGNOSTIC
     if (iter==1 && k==0) {
-      dump_array( p_res, "p_res2" );
+      dump_array( p_res, "p_res_a0" );
+    }
+    if (iter==1 && k==0) {
+      dump_array( p_res, "p_res_a1" );
     }
 #endif
 //    update flow field
