@@ -90,6 +90,7 @@ void op_par_loop_adt_calc(char const *name, op_set set,
 
 
     ciErrNum = clEnqueueNDRangeKernel( cqCommandQueue, hKernel, 1, NULL, &n_tot_thread, &nthread, 0, NULL, NULL );
+    //ciErrNum = clEnqueueNDRangeKernel( cqCommandQueue, hKernel, 1, NULL, &n_tot_thread, NULL, 0, NULL, NULL );
     assert_m( ciErrNum == CL_SUCCESS, "error executing kernel" );
 
     ciErrNum = clFinish( cqCommandQueue );

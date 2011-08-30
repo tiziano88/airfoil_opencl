@@ -7,9 +7,9 @@ struct global_constants {
   float alpha;
   float qinf[4];
 };
-#define VEC 2
-#define VECTYPE float2
-#define OP_WARPSIZE 32
+#define VEC 1
+#define VECTYPE float
+#define OP_WARPSIZE 4
 #define ZERO_float 0.0f
 #define ROUND_UP(bytes) (((bytes) + 15 ) & ~15 )
 #define MIN(a,b) ((a<b) ? (a) : (b))
@@ -359,7 +359,9 @@ inline void adt_calc(VECTYPE *x1,VECTYPE *x2,VECTYPE *x3,VECTYPE *x4,VECTYPE *q,
   *adt = (*adt) / g_const_d->cfl;
 }
 
-__kernel void op_cuda_adt_calc(
+__kernel 
+//__attribute__((vec_type_hint(VECTYPE)))
+void op_cuda_adt_calc(
   __global float *ind_arg0,
   __global int *ind_arg0_maps,
   __global short *arg0_maps,
@@ -698,16 +700,16 @@ __kernel void op_cuda_save_soln(
 }
 
 inline void res_calc(
-  __local float *x1, 
-  __local float *x2, 
-  __local float *q1, 
-  __local float *q2, 
-  __local float *adt1, 
-  __local float *adt2, 
-  float *res1, 
-  float *res2, 
+  VECTYPE *x1, 
+  VECTYPE *x2, 
+  VECTYPE *q1, 
+  VECTYPE *q2, 
+  VECTYPE *adt1, 
+  VECTYPE *adt2, 
+  VECTYPE *res1, 
+  VECTYPE *res2, 
   __constant struct global_constants *g_const_d) {
-  float dx,dy,mu, ri, p1,vol1, p2,vol2, f;
+  VECTYPE dx,dy,mu, ri, p1,vol1, p2,vol2, f;
   dx = x1[0] - x2[0];
   dy = x1[1] - x2[1];
   ri   = 1.0f/q1[0];
@@ -762,8 +764,14 @@ __kernel void op_cuda_res_calc(
   __local  float *shared, 
   __constant struct global_constants *g_const_d) {
 
-  float arg6_l[4];
-  float arg7_l[4];
+  VECTYPE arg0_l[2];
+  VECTYPE arg1_l[2];
+  VECTYPE arg2_l[4];
+  VECTYPE arg3_l[4];
+  VECTYPE arg4_l[1];
+  VECTYPE arg5_l[1];
+  VECTYPE arg6_l[4];
+  VECTYPE arg7_l[4];
 
   __global int * __local ind_arg0_map, * __local ind_arg1_map, * __local ind_arg2_map, * __local ind_arg3_map;
   __local int ind_arg0_size, ind_arg1_size, ind_arg2_size, ind_arg3_size;
@@ -822,34 +830,262 @@ __kernel void op_cuda_res_calc(
 
   
   // process set elements
-  for (int n=get_local_id(0); n<nelems2; n+=get_local_size(0)) {
+  for (int n=get_local_id(0)*VEC; n<nelems2; n+=get_local_size(0)*VEC) {
     int col2 = -1;
     if (n<nelem) {
+
+      for (int m=0; m<2; m++) { 
+#if VEC>1
+        arg0_l[m].s0 = ind_arg0_s[arg0_maps[n+0x0 + offset_b]*2+m];
+        arg0_l[m].s1 = ind_arg0_s[arg0_maps[n+0x1 + offset_b]*2+m];
+#if VEC>2
+        arg0_l[m].s2 = ind_arg0_s[arg0_maps[n+0x2 + offset_b]*2+m];
+        arg0_l[m].s3 = ind_arg0_s[arg0_maps[n+0x3 + offset_b]*2+m];
+#if VEC>4
+        arg0_l[m].s4 = ind_arg0_s[arg0_maps[n+0x4 + offset_b]*2+m];
+        arg0_l[m].s5 = ind_arg0_s[arg0_maps[n+0x5 + offset_b]*2+m];
+        arg0_l[m].s6 = ind_arg0_s[arg0_maps[n+0x6 + offset_b]*2+m];
+        arg0_l[m].s7 = ind_arg0_s[arg0_maps[n+0x7 + offset_b]*2+m];
+#if VEC>8
+        arg0_l[m].s8 = ind_arg0_s[arg0_maps[n+0x8 + offset_b]*2+m];
+        arg0_l[m].s9 = ind_arg0_s[arg0_maps[n+0x9 + offset_b]*2+m];
+        arg0_l[m].sa = ind_arg0_s[arg0_maps[n+0xa + offset_b]*2+m];
+        arg0_l[m].sb = ind_arg0_s[arg0_maps[n+0xb + offset_b]*2+m];
+        arg0_l[m].sc = ind_arg0_s[arg0_maps[n+0xc + offset_b]*2+m];
+        arg0_l[m].sd = ind_arg0_s[arg0_maps[n+0xd + offset_b]*2+m];
+        arg0_l[m].se = ind_arg0_s[arg0_maps[n+0xd + offset_b]*2+m];
+        arg0_l[m].sf = ind_arg0_s[arg0_maps[n+0xf + offset_b]*2+m];
+#endif
+#endif
+#endif
+#else
+        arg0_l[m] = ind_arg0_s[arg0_maps[n + offset_b]*2+m];
+#endif
+      }
+
+      for (int m=0; m<2; m++) { 
+#if VEC>1
+        arg1_l[m].s0 = ind_arg0_s[arg1_maps[n+0x0 + offset_b]*2+m];
+        arg1_l[m].s1 = ind_arg0_s[arg1_maps[n+0x1 + offset_b]*2+m];
+#if VEC>2
+        arg1_l[m].s2 = ind_arg0_s[arg1_maps[n+0x2 + offset_b]*2+m];
+        arg1_l[m].s3 = ind_arg0_s[arg1_maps[n+0x3 + offset_b]*2+m];
+#if VEC>4
+        arg1_l[m].s4 = ind_arg0_s[arg1_maps[n+0x4 + offset_b]*2+m];
+        arg1_l[m].s5 = ind_arg0_s[arg1_maps[n+0x5 + offset_b]*2+m];
+        arg1_l[m].s6 = ind_arg0_s[arg1_maps[n+0x6 + offset_b]*2+m];
+        arg1_l[m].s7 = ind_arg0_s[arg1_maps[n+0x7 + offset_b]*2+m];
+#if VEC>8
+        arg1_l[m].s8 = ind_arg0_s[arg1_maps[n+0x8 + offset_b]*2+m];
+        arg1_l[m].s9 = ind_arg0_s[arg1_maps[n+0x9 + offset_b]*2+m];
+        arg1_l[m].sa = ind_arg0_s[arg1_maps[n+0xa + offset_b]*2+m];
+        arg1_l[m].sb = ind_arg0_s[arg1_maps[n+0xb + offset_b]*2+m];
+        arg1_l[m].sc = ind_arg0_s[arg1_maps[n+0xc + offset_b]*2+m];
+        arg1_l[m].sd = ind_arg0_s[arg1_maps[n+0xd + offset_b]*2+m];
+        arg1_l[m].se = ind_arg0_s[arg1_maps[n+0xe + offset_b]*2+m];
+        arg1_l[m].sf = ind_arg0_s[arg1_maps[n+0xf + offset_b]*2+m];
+#endif
+#endif
+#endif
+#else
+        arg1_l[m] = ind_arg0_s[arg1_maps[n + offset_b]*2+m];
+#endif
+      }
+
+      for (int m=0; m<4; m++) { 
+#if VEC>1
+        arg2_l[m].s0 = ind_arg0_s[arg2_maps[n+0x0 + offset_b]*4+m];
+        arg2_l[m].s1 = ind_arg0_s[arg2_maps[n+0x1 + offset_b]*4+m];
+#if VEC>2
+        arg2_l[m].s2 = ind_arg0_s[arg2_maps[n+0x2 + offset_b]*4+m];
+        arg2_l[m].s3 = ind_arg0_s[arg2_maps[n+0x3 + offset_b]*4+m];
+#if VEC>4
+        arg2_l[m].s4 = ind_arg0_s[arg2_maps[n+0x4 + offset_b]*4+m];
+        arg2_l[m].s5 = ind_arg0_s[arg2_maps[n+0x5 + offset_b]*4+m];
+        arg2_l[m].s6 = ind_arg0_s[arg2_maps[n+0x6 + offset_b]*4+m];
+        arg2_l[m].s7 = ind_arg0_s[arg2_maps[n+0x7 + offset_b]*4+m];
+#if VEC>8
+        arg2_l[m].s8 = ind_arg0_s[arg2_maps[n+0x8 + offset_b]*4+m];
+        arg2_l[m].s9 = ind_arg0_s[arg2_maps[n+0x9 + offset_b]*4+m];
+        arg2_l[m].sa = ind_arg0_s[arg2_maps[n+0xa + offset_b]*4+m];
+        arg2_l[m].sb = ind_arg0_s[arg2_maps[n+0xb + offset_b]*4+m];
+        arg2_l[m].sc = ind_arg0_s[arg2_maps[n+0xc + offset_b]*4+m];
+        arg2_l[m].sd = ind_arg0_s[arg2_maps[n+0xd + offset_b]*4+m];
+        arg2_l[m].se = ind_arg0_s[arg2_maps[n+0xe + offset_b]*4+m];
+        arg2_l[m].sf = ind_arg0_s[arg2_maps[n+0xf + offset_b]*4+m];
+#endif
+#endif
+#endif
+#else
+        arg2_l[m] = ind_arg0_s[arg2_maps[n + offset_b]*4+m];
+#endif
+      }
+
+      for (int m=0; m<4; m++) { 
+#if VEC>1
+        arg3_l[m].s0 = ind_arg0_s[arg3_maps[n+0x0 + offset_b]*4+m];
+        arg3_l[m].s1 = ind_arg0_s[arg3_maps[n+0x1 + offset_b]*4+m];
+#if VEC>2
+        arg3_l[m].s2 = ind_arg0_s[arg3_maps[n+0x2 + offset_b]*4+m];
+        arg3_l[m].s3 = ind_arg0_s[arg3_maps[n+0x3 + offset_b]*4+m];
+#if VEC>4
+        arg3_l[m].s4 = ind_arg0_s[arg3_maps[n+0x4 + offset_b]*4+m];
+        arg3_l[m].s5 = ind_arg0_s[arg3_maps[n+0x5 + offset_b]*4+m];
+        arg3_l[m].s6 = ind_arg0_s[arg3_maps[n+0x6 + offset_b]*4+m];
+        arg3_l[m].s7 = ind_arg0_s[arg3_maps[n+0x7 + offset_b]*4+m];
+#if VEC>8
+        arg3_l[m].s8 = ind_arg0_s[arg3_maps[n+0x8 + offset_b]*4+m];
+        arg3_l[m].s9 = ind_arg0_s[arg3_maps[n+0x9 + offset_b]*4+m];
+        arg3_l[m].sa = ind_arg0_s[arg3_maps[n+0xa + offset_b]*4+m];
+        arg3_l[m].sb = ind_arg0_s[arg3_maps[n+0xb + offset_b]*4+m];
+        arg3_l[m].sc = ind_arg0_s[arg3_maps[n+0xc + offset_b]*4+m];
+        arg3_l[m].sd = ind_arg0_s[arg3_maps[n+0xd + offset_b]*4+m];
+        arg3_l[m].se = ind_arg0_s[arg3_maps[n+0xe + offset_b]*4+m];
+        arg3_l[m].sf = ind_arg0_s[arg3_maps[n+0xf + offset_b]*4+m];
+#endif
+#endif
+#endif
+#else
+        arg3_l[m] = ind_arg0_s[arg3_maps[n + offset_b]*4+m];
+#endif
+      }
+
+      for (int m=0; m<1; m++) { 
+#if VEC>1
+        arg4_l[m].s0 = ind_arg0_s[arg4_maps[n+0x0 + offset_b]*1+m];
+        arg4_l[m].s1 = ind_arg0_s[arg4_maps[n+0x1 + offset_b]*1+m];
+#if VEC>2
+        arg4_l[m].s2 = ind_arg0_s[arg4_maps[n+0x2 + offset_b]*1+m];
+        arg4_l[m].s3 = ind_arg0_s[arg4_maps[n+0x3 + offset_b]*1+m];
+#if VEC>4
+        arg4_l[m].s4 = ind_arg0_s[arg4_maps[n+0x4 + offset_b]*1+m];
+        arg4_l[m].s5 = ind_arg0_s[arg4_maps[n+0x5 + offset_b]*1+m];
+        arg4_l[m].s6 = ind_arg0_s[arg4_maps[n+0x6 + offset_b]*1+m];
+        arg4_l[m].s7 = ind_arg0_s[arg4_maps[n+0x7 + offset_b]*1+m];
+#if VEC>8
+        arg4_l[m].s8 = ind_arg0_s[arg4_maps[n+0x8 + offset_b]*1+m];
+        arg4_l[m].s9 = ind_arg0_s[arg4_maps[n+0x9 + offset_b]*1+m];
+        arg4_l[m].sa = ind_arg0_s[arg4_maps[n+0xa + offset_b]*1+m];
+        arg4_l[m].sb = ind_arg0_s[arg4_maps[n+0xb + offset_b]*1+m];
+        arg4_l[m].sc = ind_arg0_s[arg4_maps[n+0xc + offset_b]*1+m];
+        arg4_l[m].sd = ind_arg0_s[arg4_maps[n+0xd + offset_b]*1+m];
+        arg4_l[m].se = ind_arg0_s[arg4_maps[n+0xe + offset_b]*1+m];
+        arg4_l[m].sf = ind_arg0_s[arg4_maps[n+0xf + offset_b]*1+m];
+#endif
+#endif
+#endif
+#else
+        arg4_l[m] = ind_arg0_s[arg4_maps[n + offset_b]*1+m];
+#endif
+      }
+
+      for (int m=0; m<1; m++) { 
+#if VEC>1
+        arg5_l[m].s0 = ind_arg0_s[arg5_maps[n+0x0 + offset_b]*1+m];
+        arg5_l[m].s1 = ind_arg0_s[arg5_maps[n+0x1 + offset_b]*1+m];
+#if VEC>2
+        arg5_l[m].s2 = ind_arg0_s[arg5_maps[n+0x2 + offset_b]*1+m];
+        arg5_l[m].s3 = ind_arg0_s[arg5_maps[n+0x3 + offset_b]*1+m];
+#if VEC>4
+        arg5_l[m].s4 = ind_arg0_s[arg5_maps[n+0x4 + offset_b]*1+m];
+        arg5_l[m].s5 = ind_arg0_s[arg5_maps[n+0x5 + offset_b]*1+m];
+        arg5_l[m].s6 = ind_arg0_s[arg5_maps[n+0x6 + offset_b]*1+m];
+        arg5_l[m].s7 = ind_arg0_s[arg5_maps[n+0x7 + offset_b]*1+m];
+#if VEC>8
+        arg5_l[m].s8 = ind_arg0_s[arg5_maps[n+0x8 + offset_b]*1+m];
+        arg5_l[m].s9 = ind_arg0_s[arg5_maps[n+0x9 + offset_b]*1+m];
+        arg5_l[m].sa = ind_arg0_s[arg5_maps[n+0xa + offset_b]*1+m];
+        arg5_l[m].sb = ind_arg0_s[arg5_maps[n+0xb + offset_b]*1+m];
+        arg5_l[m].sc = ind_arg0_s[arg5_maps[n+0xc + offset_b]*1+m];
+        arg5_l[m].sd = ind_arg0_s[arg5_maps[n+0xd + offset_b]*1+m];
+        arg5_l[m].se = ind_arg0_s[arg5_maps[n+0xe + offset_b]*1+m];
+        arg5_l[m].sf = ind_arg0_s[arg5_maps[n+0xf + offset_b]*1+m];
+#endif
+#endif
+#endif
+#else
+        arg5_l[m] = ind_arg0_s[arg5_maps[n + offset_b]*1+m];
+#endif
+      }
+
       // initialise local variables
       for (int d=0; d<4; d++)
         arg6_l[d] = 0.0f;
       for (int d=0; d<4; d++)
         arg7_l[d] = 0.0f;
       // user-supplied kernel call
-      res_calc( ind_arg0_s+arg0_maps[n + offset_b]*2,
-                ind_arg0_s+arg1_maps[n + offset_b]*2,
-                ind_arg1_s+arg2_maps[n + offset_b]*4,
-                ind_arg1_s+arg3_maps[n + offset_b]*4,
-                ind_arg2_s+arg4_maps[n + offset_b]*1,
-                ind_arg2_s+arg5_maps[n + offset_b]*1,
+      res_calc( arg0_l,
+                arg1_l,
+                arg2_l,
+                arg3_l,
+                arg4_l,
+                arg5_l,
                 arg6_l,
-                arg7_l, g_const_d );
+                arg7_l, 
+                g_const_d );
       col2 = colors[n + offset_b];
     }
     // store local variables
-    int arg6_map = arg6_maps[n + offset_b];
-    int arg7_map = arg7_maps[n + offset_b];
+    //int arg6_map = arg6_maps[n + offset_b];
+    //int arg7_map = arg7_maps[n + offset_b];
     for (int col=0; col<ncolor; col++) {
       if (col2==col) {
-        for (int d=0; d<4; d++)
-          ind_arg3_s[d+arg6_map*4] += arg6_l[d];
-        for (int d=0; d<4; d++)
-          ind_arg3_s[d+arg7_map*4] += arg7_l[d];
+        for (int d=0; d<4; d++) {
+#if VEC>1
+          ind_arg3_s[arg6_maps[n+0x0 + offset_b]*4+d] = arg6_l[d].s0;
+          ind_arg3_s[arg6_maps[n+0x1 + offset_b]*4+d] = arg6_l[d].s1;
+#if VEC>2
+          ind_arg3_s[arg6_maps[n+0x2 + offset_b]*4+d] = arg6_l[d].s2;
+          ind_arg3_s[arg6_maps[n+0x3 + offset_b]*4+d] = arg6_l[d].s3;
+#if VEC>4
+          ind_arg3_s[arg6_maps[n+0x4 + offset_b]*4+d] = arg6_l[d].s4;
+          ind_arg3_s[arg6_maps[n+0x5 + offset_b]*4+d] = arg6_l[d].s5;
+          ind_arg3_s[arg6_maps[n+0x6 + offset_b]*4+d] = arg6_l[d].s6;
+          ind_arg3_s[arg6_maps[n+0x7 + offset_b]*4+d] = arg6_l[d].s7;
+#if VEC>8
+          ind_arg3_s[arg6_maps[n+0x8 + offset_b]*4+d] = arg6_l[d].s8;
+          ind_arg3_s[arg6_maps[n+0x9 + offset_b]*4+d] = arg6_l[d].s9;
+          ind_arg3_s[arg6_maps[n+0xa + offset_b]*4+d] = arg6_l[d].sa;
+          ind_arg3_s[arg6_maps[n+0xb + offset_b]*4+d] = arg6_l[d].sb;
+          ind_arg3_s[arg6_maps[n+0xc + offset_b]*4+d] = arg6_l[d].sc;
+          ind_arg3_s[arg6_maps[n+0xd + offset_b]*4+d] = arg6_l[d].sd;
+          ind_arg3_s[arg6_maps[n+0xd + offset_b]*4+d] = arg6_l[d].sd;
+          ind_arg3_s[arg6_maps[n+0xf + offset_b]*4+d] = arg6_l[d].sf;
+#endif
+#endif
+#endif
+#else
+          ind_arg3_s[arg6_maps[ n + offset_b ] *4+d] += arg6_l[d];
+#endif
+        }
+        for (int d=0; d<4; d++) {
+#if VEC>1
+          ind_arg3_s[arg7_maps[n+0x0 + offset_b]*4+d] = arg7_l[d].s0;
+          ind_arg3_s[arg7_maps[n+0x1 + offset_b]*4+d] = arg7_l[d].s1;
+#if VEC>2
+          ind_arg3_s[arg7_maps[n+0x2 + offset_b]*4+d] = arg7_l[d].s2;
+          ind_arg3_s[arg7_maps[n+0x3 + offset_b]*4+d] = arg7_l[d].s3;
+#if VEC>4
+          ind_arg3_s[arg7_maps[n+0x4 + offset_b]*4+d] = arg7_l[d].s4;
+          ind_arg3_s[arg7_maps[n+0x5 + offset_b]*4+d] = arg7_l[d].s5;
+          ind_arg3_s[arg7_maps[n+0x6 + offset_b]*4+d] = arg7_l[d].s6;
+          ind_arg3_s[arg7_maps[n+0x7 + offset_b]*4+d] = arg7_l[d].s7;
+#if VEC>8
+          ind_arg3_s[arg7_maps[n+0x8 + offset_b]*4+d] = arg7_l[d].s8;
+          ind_arg3_s[arg7_maps[n+0x9 + offset_b]*4+d] = arg7_l[d].s9;
+          ind_arg3_s[arg7_maps[n+0xa + offset_b]*4+d] = arg7_l[d].sa;
+          ind_arg3_s[arg7_maps[n+0xb + offset_b]*4+d] = arg7_l[d].sb;
+          ind_arg3_s[arg7_maps[n+0xc + offset_b]*4+d] = arg7_l[d].sc;
+          ind_arg3_s[arg7_maps[n+0xd + offset_b]*4+d] = arg7_l[d].sd;
+          ind_arg3_s[arg7_maps[n+0xd + offset_b]*4+d] = arg7_l[d].sd;
+          ind_arg3_s[arg7_maps[n+0xf + offset_b]*4+d] = arg7_l[d].sf;
+#endif
+#endif
+#endif
+#else
+          ind_arg3_s[arg7_maps[ n + offset_b ] *4+d] += arg7_l[d];
+#endif
+        }
       }
       barrier( CLK_LOCAL_MEM_FENCE );
     }
