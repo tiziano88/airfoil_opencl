@@ -7,21 +7,22 @@ struct global_constants {
   float alpha;
   float qinf[4];
 };
-#define VEC 1
-#define VECTYPE float
+#define VEC 2
+#define VECTYPE float2
 #define OP_WARPSIZE 32
 #define ZERO_float 0.0f
 #define ROUND_UP(bytes) (((bytes) + 15 ) & ~15 )
 #define MIN(a,b) ((a<b) ? (a) : (b))
 typedef enum {OP_READ, OP_WRITE, OP_RW, OP_INC, OP_MIN, OP_MAX} op_access;
 inline void bres_calc(
-  __local VECTYPE *x1,  
-  __local VECTYPE *x2,  
-  __local VECTYPE *q1,
-  __local VECTYPE *adt1, 
+  __local float *x1,  
+  __local float *x2,  
+  __local float *q1,
+  __local float *adt1, 
   float *res1,
   __global int *bound,
   __constant struct global_constants *g_const_d ) {
+
   float dx,dy,mu, ri, p1,vol1, p2,vol2, f;
 
   dx = x1[0] - x2[0];
@@ -76,17 +77,17 @@ __kernel void op_cuda_bres_calc(
   __global int   *nelems,
   __global int   *ncolors,
   __global int   *colors,
-  __local  VECTYPE  *shared, 
+  __local  float  *shared, 
   __constant struct global_constants *g_const_d ) {
 
   float arg4_l[4];
 
   __global int   * __local ind_arg0_map, * __local ind_arg1_map, * __local ind_arg2_map, * __local ind_arg3_map;
   __local int ind_arg0_size, ind_arg1_size, ind_arg2_size, ind_arg3_size;
-  __local VECTYPE * __local ind_arg0_s;
-  __local VECTYPE * __local ind_arg1_s;
-  __local VECTYPE * __local ind_arg2_s;
-  __local VECTYPE * __local ind_arg3_s;
+  __local float * __local ind_arg0_s;
+  __local float * __local ind_arg1_s;
+  __local float * __local ind_arg2_s;
+  __local float * __local ind_arg3_s;
   __local int    nelems2, ncolor;
   __local int    nelem, offset_b;
 
@@ -244,8 +245,8 @@ inline void op_reduction( __global volatile float *dat_g, float dat_l, int reduc
 
 }
 
-inline void update(VECTYPE *qold, VECTYPE *q, VECTYPE *res, __global VECTYPE *adt, VECTYPE *rms){
-  VECTYPE del, adti;
+inline void update(float *qold, float *q, float *res, __global float *adt, float *rms){
+  float del, adti;
 
   adti = 1.0f/(*adt);
 
@@ -266,7 +267,7 @@ __kernel void op_cuda_update(
   int arg4_offset,
   int   offset_s,
   int   set_size,
-  __local  VECTYPE *shared ) {
+  __local  float *shared ) {
 
   arg4 =  arg4 + arg4_offset/sizeof(float);
 
@@ -280,7 +281,7 @@ __kernel void op_cuda_update(
 
   int   tid = get_local_id(0)%OP_WARPSIZE;
 
-  __local VECTYPE *arg_s = shared+ offset_s *(get_local_id(0)/OP_WARPSIZE)/sizeof(float);
+  __local float *arg_s = shared+ offset_s *(get_local_id(0)/OP_WARPSIZE)/sizeof(float);
 
   // process set elements
   for (int n=get_global_id(0); n<set_size; n+=get_global_size(0)) {
@@ -375,14 +376,14 @@ __kernel void op_cuda_adt_calc(
   __global int   *nelems,
   __global int   *ncolors,
   __global int   *colors,
-  __local  VECTYPE  *shared,
+  __local  float  *shared,
   __constant struct global_constants *g_const_d ) {
 
 
 
   __global int   * __local ind_arg0_map;
   __local int ind_arg0_size;
-  __local VECTYPE * __local ind_arg0_s;
+  __local float * __local ind_arg0_s;
   __local int    nelem, offset_b;
 
   VECTYPE arg0_l[2];
@@ -406,7 +407,7 @@ __kernel void op_cuda_adt_calc(
 
     // set shared memory pointers
     int nbytes = 0;
-    ind_arg0_s = shared + nbytes/4;
+    ind_arg0_s = shared + nbytes/sizeof(float);
   }
 
   barrier( CLK_LOCAL_MEM_FENCE );
@@ -610,8 +611,9 @@ __kernel void op_cuda_adt_calc(
 
 }
 
-inline void save_soln(float4 *q, float4 *qold){
- for (int n=0; n<4; n++) qold[n] = q[n];
+inline void save_soln(float *q, float *qold){
+ for (int n=0; n<4; n++) 
+     qold[n] = q[n];
 }
 
 __kernel void op_cuda_save_soln(
@@ -619,15 +621,15 @@ __kernel void op_cuda_save_soln(
   __global float *arg1,
   int   offset_s,
   int   set_size ,
-  __local  float4 *shared ) {
+  __local  float *shared ) {
 
-  float4 arg0_l[4];
-  float4 arg1_l[4];
+  float arg0_l[4];
+  float arg1_l[4];
   //float4 arg0_l_d[4];
   //float4 arg1_l_d[4];
   int   tid = get_local_id(0) % OP_WARPSIZE;
 
-  __local float4 *arg_s = shared+ offset_s *(get_local_id(0)/OP_WARPSIZE)/sizeof(float4);
+  __local float *arg_s = shared+ offset_s *(get_local_id(0)/OP_WARPSIZE)/sizeof(float);
 
 
   // process set elements
@@ -635,7 +637,7 @@ __kernel void op_cuda_save_soln(
 
   //for (int n=get_local_id(0)+get_group_id(0)*get_local_size(0);
   //     n<set_size; n+=get_local_size(0)*get_num_groups(0)) {
-  for (int n=get_global_id(0); n<set_size/4; n+=get_global_size(0)) {
+  for (int n=get_global_id(0); n<set_size/1; n+=get_global_size(0)) { //TODO: VEC
 
     int offset = n - tid;
     int nelems = MIN(OP_WARPSIZE,set_size-offset);
@@ -643,8 +645,13 @@ __kernel void op_cuda_save_soln(
     // copy data into shared memory, then into local
 
     
-    for (int m=0; m<4; m++)
+    for (int m=0; m<4; m++) {
+#if VEC>100
       arg_s[tid+m*nelems] = vload4(0, arg0 + (offset*4 + tid+m*nelems)*4 );
+#else
+      arg_s[tid+m*nelems] = arg0[offset*4 + tid+m*nelems];
+#endif
+
 
 
     for (int m=0; m<4; m++)
@@ -679,17 +686,27 @@ __kernel void op_cuda_save_soln(
     for (int m=0; m<4; m++)
       arg_s[m+tid*4] = arg1_l[m];
 
-    for (int m=0; m<4; m++)
+    for (int m=0; m<4; m++) {
+#if VEC>100
       vstore4( arg_s[tid+m*nelems], 0, arg1 + (tid+m*nelems+offset*4 )*4);
-//      arg1[tid+m*nelems+offset*4] = arg_s[tid+m*nelems];
-      
-      
-
+#else 
+      arg1[tid+m*nelems+offset*4] = arg_s[tid+m*nelems];
+#endif
+    }
   }
 }
+}
 
-inline void res_calc(__local float *x1, __local float *x2, __local float *q1, __local float *q2,
-                     __local float *adt1, __local float *adt2, float *res1, float *res2, __constant struct global_constants *g_const_d) {
+inline void res_calc(
+  __local float *x1, 
+  __local float *x2, 
+  __local float *q1, 
+  __local float *q2, 
+  __local float *adt1, 
+  __local float *adt2, 
+  float *res1, 
+  float *res2, 
+  __constant struct global_constants *g_const_d) {
   float dx,dy,mu, ri, p1,vol1, p2,vol2, f;
   dx = x1[0] - x2[0];
   dy = x1[1] - x2[1];

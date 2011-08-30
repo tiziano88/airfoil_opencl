@@ -1,1 +1,1 @@
-kernels_single.cl
+kernels_vector.cl
