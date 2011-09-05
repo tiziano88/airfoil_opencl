@@ -7,7 +7,7 @@ struct global_constants {
   float alpha;
   float qinf[4];
 };
-#define OP_WARPSIZE 4
+#define OP_WARPSIZE 32
 #define ZERO_float 0.0f
 #define ROUND_UP(bytes) (((bytes) + 15 ) & ~15 )
 #define MIN(a,b) ((a<b) ? (a) : (b))

@@ -2,7 +2,7 @@
 API=opencl
 architecture=amd
 precision=single
-vector=4
+vector=1
 
 filename=inputsize_${API}_${architecture}_${precision}_vector$vector.csv
 
@@ -12,7 +12,7 @@ make clean
 make 
 
 
-for size in 4608 18432 73728 294912 1179648
+for size in 101250 198450 299538 399618 496008 602802 698562 801378 903168 1002528 
 do
   ln -fs "./naca/new_grid_$size.dat" ./new_grid.dat
   for iter in `seq 3`
