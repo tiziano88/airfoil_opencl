@@ -50,6 +50,8 @@
 
 #define OP_WARPSIZE 32
 
+//#define HOST_MEMORY 1
+
 // arrays for global constants and reductions
 
 int   OP_consts_bytes=0,    OP_reduct_bytes=0;
@@ -276,6 +278,8 @@ void op_mvHostToDevice( void **map, int size ) {
 
   LOG( LOG_INFO, "moving data to device... " );
 
+#ifdef HOST_MEMORY
+
   tmp = clCreateBuffer( cxGPUContext, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, size, NULL, &ciErrNum);
   assert_m( ciErrNum == CL_SUCCESS, "error creating buffer" );
 
@@ -286,6 +290,12 @@ void op_mvHostToDevice( void **map, int size ) {
 
   ciErrNum = clEnqueueUnmapMemObject( cqCommandQueue, tmp, tmp_w, 0, NULL, NULL);
   assert_m( ciErrNum == CL_SUCCESS, "error unmapping buffer" );
+
+#else
+
+  tmp = clCreateBuffer( cxGPUContext, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, size, *map, &ciErrNum);
+  assert_m( ciErrNum == CL_SUCCESS, "error creating buffer" );
+#endif
 
   ciErrNum = clFinish( cqCommandQueue );
   assert_m( ciErrNum == CL_SUCCESS, "error completing device commands" );
@@ -308,6 +318,7 @@ void op_cpHostToDevice( cl_mem *data_d, void **data_h, int size ) {
 
   LOG( LOG_INFO, "copying data to device... " );
 
+#ifdef HOST_MEMORY
   tmp = clCreateBuffer( cxGPUContext, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, size, NULL, &ciErrNum );
   assert_m( ciErrNum == CL_SUCCESS, "error creating buffer" );
 
@@ -318,6 +329,11 @@ void op_cpHostToDevice( cl_mem *data_d, void **data_h, int size ) {
 
   ciErrNum = clEnqueueUnmapMemObject( cqCommandQueue, tmp, tmp_w, 0, NULL, NULL);
   assert_m( ciErrNum == CL_SUCCESS, "error unmapping buffer" );
+#else
+  tmp = clCreateBuffer( cxGPUContext, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, size, *data_h, &ciErrNum );
+  assert_m( ciErrNum == CL_SUCCESS, "error creating buffer" );
+
+#endif
 
   ciErrNum = clFinish( cqCommandQueue );
   assert_m( ciErrNum == CL_SUCCESS, "error completing device commands" );
