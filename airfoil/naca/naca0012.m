@@ -43,7 +43,7 @@ x = real(z); y = imag(z);
 %I = 800;
 %J = 1200;
 
-I = 332;
+I = 472;
 J = I * 1.5;
 
 xb = linspace(-3,3,3*I+1);
