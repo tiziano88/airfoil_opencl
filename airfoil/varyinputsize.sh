@@ -14,6 +14,7 @@ make
 
 for size in 101250 198450 299538 399618 496008 602802 698562 801378 903168 1002528 
 do
+  rm ./new_grid.dat
   ln -fs "./naca/new_grid_$size.dat" ./new_grid.dat
   for iter in `seq 3`
   do
