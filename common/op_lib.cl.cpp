@@ -237,11 +237,11 @@ inline void cutilDeviceInit( int argc, char **argv ) {
   ciErrNum = clGetPlatformIDs( ciNumPlatforms, cpPlatform, NULL );
   assert_m( ciErrNum == CL_SUCCESS, "error getting platform IDs" );
 
-  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_CPU, 0, NULL, &ciNumDevices );
+  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_GPU, 0, NULL, &ciNumDevices );
   LOG( LOG_INFO, "obtained %d devices", ciNumDevices );
   assert_m( ciNumDevices > 0, "no devices found!" );
   cpDevice = ( cl_device_id * ) malloc( sizeof( cl_device_id ) * ciNumDevices );
-  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_CPU, ciNumDevices, cpDevice, NULL );
+  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_GPU, ciNumDevices, cpDevice, NULL );
   assert_m( ciErrNum == CL_SUCCESS, "error getting device IDs" );
 
   cxGPUContext = clCreateContext( 0, 1, cpDevice, NULL, NULL, &ciErrNum );
@@ -272,11 +272,20 @@ void op_mvHostToDevice( void **map, int size ) {
   */
   cl_int ciErrNum;
   cl_mem tmp;
+  void * tmp_w;
 
   LOG( LOG_INFO, "moving data to device... " );
 
-  tmp = clCreateBuffer( cxGPUContext, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, size, *map, &ciErrNum);
+  tmp = clCreateBuffer( cxGPUContext, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, size, NULL, &ciErrNum);
   assert_m( ciErrNum == CL_SUCCESS, "error creating buffer" );
+
+  tmp_w = clEnqueueMapBuffer( cqCommandQueue, tmp, CL_TRUE, CL_MAP_WRITE, 0, size, 0, NULL, NULL, &ciErrNum);
+  assert_m( ciErrNum == CL_SUCCESS, "error mapping buffer" );
+
+  memcpy( tmp_w, *map, size );
+
+  ciErrNum = clEnqueueUnmapMemObject( cqCommandQueue, tmp, tmp_w, 0, NULL, NULL);
+  assert_m( ciErrNum == CL_SUCCESS, "error unmapping buffer" );
 
   ciErrNum = clFinish( cqCommandQueue );
   assert_m( ciErrNum == CL_SUCCESS, "error completing device commands" );
@@ -295,11 +304,20 @@ void op_cpHostToDevice( cl_mem *data_d, void **data_h, int size ) {
 
   cl_int ciErrNum;
   cl_mem tmp;
+  void * tmp_w;
 
   LOG( LOG_INFO, "copying data to device... " );
 
-  tmp = clCreateBuffer( cxGPUContext, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, size, *data_h, &ciErrNum );
+  tmp = clCreateBuffer( cxGPUContext, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, size, NULL, &ciErrNum );
   assert_m( ciErrNum == CL_SUCCESS, "error creating buffer" );
+
+  tmp_w = clEnqueueMapBuffer( cqCommandQueue, tmp, CL_TRUE, CL_MAP_WRITE, 0, size, 0, NULL, NULL, &ciErrNum);
+  assert_m( ciErrNum == CL_SUCCESS, "error mapping buffer" );
+
+  memcpy( tmp_w, *data_h, size );
+
+  ciErrNum = clEnqueueUnmapMemObject( cqCommandQueue, tmp, tmp_w, 0, NULL, NULL);
+  assert_m( ciErrNum == CL_SUCCESS, "error unmapping buffer" );
 
   ciErrNum = clFinish( cqCommandQueue );
   assert_m( ciErrNum == CL_SUCCESS, "error completing device commands" );
