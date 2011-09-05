@@ -1,6 +1,6 @@
 
 API=opencl
-architecture=amd
+architecture=intel
 precision=single
 vector=1
 
