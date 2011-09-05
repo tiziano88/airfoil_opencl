@@ -1,6 +1,6 @@
 
 API=opencl
-architecture=amd
+architecture=nvidia
 precision=single
 vector=1
 
@@ -8,8 +8,8 @@ filename=inputsize_${API}_${architecture}_${precision}_vector$vector.csv
 
 rm $filename
 
-make clean
-make 
+#make clean
+#make 
 
 
 for size in 101250 198450 299538 399618 496008 602802 698562 801378 903168 1002528 
