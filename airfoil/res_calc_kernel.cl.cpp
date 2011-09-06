@@ -64,6 +64,8 @@ void op_par_loop_res_calc(char const *name, op_set set,
 
     const size_t nshared = Plan->nshared;
 
+    //printf("nelems: %d\n", Plan->nelems);
+
 
     int i = 0;
     ciErrNum = clSetKernelArg(hKernel, i++, sizeof(cl_mem), &(arg0.data_d));
