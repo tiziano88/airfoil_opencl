@@ -46,6 +46,7 @@
 #include <CL/cl.h>
 
 #define OP_WARPSIZE 4
+#define VEC 2
 //#define HOST_MEMORY 1
 
 // arrays for global constants and reductions
@@ -114,7 +115,7 @@ void compileProgram ( const char *filename ) {
 
   fseek( file, 0, SEEK_END );
   int len = ftell( file ) + 1;
-  program_buf = ( char * ) malloc( sizeof( char ) * len );
+  program_buf = ( char * ) malloc( sizeof( char ) * (len+2) );
   bzero( program_buf, len );
   rewind( file );
   fread( program_buf, sizeof( char ), len, file );
