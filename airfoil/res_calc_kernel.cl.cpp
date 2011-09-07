@@ -108,8 +108,10 @@ void op_par_loop_res_calc(char const *name, op_set set,
     ciErrNum = clEnqueueNDRangeKernel( cqCommandQueue, hKernel, 1, NULL, &n_tot_thread, &nthread, 0, NULL, NULL );
     assert_m( ciErrNum == CL_SUCCESS, "error executing kernel" );
 
+#ifndef ASYNC
     ciErrNum = clFinish( cqCommandQueue );
     assert_m( ciErrNum == CL_SUCCESS, "error completing device commands" );
+#endif
 
     block_offset += nblocks;
   }

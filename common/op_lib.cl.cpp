@@ -47,6 +47,8 @@
 
 #define OP_WARPSIZE 32
 
+#define ASYNC 1
+
 #ifndef VEC
 #define VEC 1
 #endif
