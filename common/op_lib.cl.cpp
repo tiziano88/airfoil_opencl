@@ -45,11 +45,7 @@
 #define __NO_STD_VECTOR //use cl::vector
 #include <CL/cl.h>
 
-
-// define CUDA warpsize
-
-#define OP_WARPSIZE 32
-
+#define OP_WARPSIZE 4
 //#define HOST_MEMORY 1
 
 // arrays for global constants and reductions
@@ -127,7 +123,11 @@ void compileProgram ( const char *filename ) {
   cpProgram = clCreateProgramWithSource( cxGPUContext, 1, (const char **) &program_buf, NULL, &ciErrNum );
   assert_m( ciErrNum == CL_SUCCESS, "error creating program from source" );
 
-  ciErrNum = clBuildProgram( cpProgram, 1, cpDevice, "-cl-mad-enable -cl-fast-relaxed-math", NULL, NULL );
+  char oclFlags[1000];
+
+  sprintf( oclFlags,  "-cl-mad-enable -cl-fast-relaxed-math -D OP_WARPSIZE=%d", OP_WARPSIZE );
+
+  ciErrNum = clBuildProgram( cpProgram, 1, cpDevice, oclFlags, NULL, NULL );
   if ( ciErrNum != CL_SUCCESS ) {
     char *log;
     size_t log_size = 0;
@@ -239,11 +239,11 @@ inline void cutilDeviceInit( int argc, char **argv ) {
   ciErrNum = clGetPlatformIDs( ciNumPlatforms, cpPlatform, NULL );
   assert_m( ciErrNum == CL_SUCCESS, "error getting platform IDs" );
 
-  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_GPU, 0, NULL, &ciNumDevices );
+  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_CPU, 0, NULL, &ciNumDevices );
   LOG( LOG_INFO, "obtained %d devices", ciNumDevices );
   assert_m( ciNumDevices > 0, "no devices found!" );
   cpDevice = ( cl_device_id * ) malloc( sizeof( cl_device_id ) * ciNumDevices );
-  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_GPU, ciNumDevices, cpDevice, NULL );
+  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_CPU, ciNumDevices, cpDevice, NULL );
   assert_m( ciErrNum == CL_SUCCESS, "error getting device IDs" );
 
   cxGPUContext = clCreateContext( 0, 1, cpDevice, NULL, NULL, &ciErrNum );
