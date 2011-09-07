@@ -59,7 +59,9 @@ void op_par_loop_res_calc(char const *name, op_set set,
     size_t nthread = OP_block_size;
   #endif
 
+#ifdef VEC
     nthread /= VEC;
+#endif
 
 
     size_t nblocks = Plan->ncolblk[col];
