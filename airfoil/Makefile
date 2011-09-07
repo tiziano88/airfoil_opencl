@@ -19,6 +19,10 @@ endif
   #/usr/lib64/lobOpenCL.so.1
   OCLINC	:= -I$(OP2) -I. $(INC)
 
+ifdef VEC
+  export VEC
+  CFLAGS += -DVEC=$(VEC)
+endif
 
 #
 # set flags for compilation and linking
@@ -46,7 +50,7 @@ endif
 ifndef PART_SIZE
   PART_SIZE := 128
 endif
-CFLAGS	:= -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_1=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_2=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_3=$(BLOCK_SIZE) -DOP_PART_SIZE_0=$(PART_SIZE) -DOP_PART_SIZE_1=$(PART_SIZE) -DOP_PART_SIZE_2=$(PART_SIZE) -DOP_PART_SIZE_3=$(PART_SIZE)
+CFLAGS	+= -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_1=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_2=$(BLOCK_SIZE) -DOP_BLOCK_SIZE_3=$(BLOCK_SIZE) -DOP_PART_SIZE_0=$(PART_SIZE) -DOP_PART_SIZE_1=$(PART_SIZE) -DOP_PART_SIZE_2=$(PART_SIZE) -DOP_PART_SIZE_3=$(PART_SIZE)
 CFLAGS += -g
 CXXFLAGS := $(CFLAGS)
 #
@@ -100,9 +104,11 @@ double: airfoil_opencl
 vector: airfoil_opencl
 	-ln -fs kernels_vector.cl kernels.cl
 
+
 #
 # cleanup
 #
 
 clean:
 	-rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+	cd $(OP2); make clean

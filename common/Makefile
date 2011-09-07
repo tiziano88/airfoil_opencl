@@ -7,6 +7,10 @@
 #INC := -I$(CUDA_HOME)/include
 INC := -I$(OPENCL)/include
 
+ifdef VEC
+  CXXFLAGS += -DVEC=$(VEC)
+endif
+
 
 all:		op_lib_core.o op_lib.o op_lib.a
 
@@ -15,14 +19,14 @@ all:		op_lib_core.o op_lib.o op_lib.a
 #
 
 op_lib_core.o:	op_lib_core.c op_lib_core.h
-		gcc -g -std=c99 -c op_lib_core.c $(INC)
+		gcc $(CXXFLAGS) -g -std=c99 -c op_lib_core.c $(INC)
 
 #
 # C++ library used by sequential and OpenMP executables
 #
 
 op_lib.o:	op_lib.cl.cpp op_lib.h op_lib_core.h
-		g++ -g -c op_lib.cl.cpp $(INC) -o op_lib.o
+		g++ $(CXXFLAGS) -g -c op_lib.cl.cpp $(INC) -o op_lib.o
 
 
 op_lib.a:	op_lib_core.o op_lib.o

@@ -45,11 +45,11 @@
 #define __NO_STD_VECTOR //use cl::vector
 #include <CL/cl.h>
 
+#define OP_WARPSIZE 4
 
-// define CUDA warpsize
-
-#define OP_WARPSIZE 32
-
+#ifndef VEC
+#define VEC 1
+#endif
 //#define HOST_MEMORY 1
 
 // arrays for global constants and reductions
@@ -118,7 +118,7 @@ void compileProgram ( const char *filename ) {
 
   fseek( file, 0, SEEK_END );
   int len = ftell( file ) + 1;
-  program_buf = ( char * ) malloc( sizeof( char ) * len );
+  program_buf = ( char * ) malloc( sizeof( char ) * (len+2) );
   bzero( program_buf, len );
   rewind( file );
   fread( program_buf, sizeof( char ), len, file );
@@ -127,7 +127,16 @@ void compileProgram ( const char *filename ) {
   cpProgram = clCreateProgramWithSource( cxGPUContext, 1, (const char **) &program_buf, NULL, &ciErrNum );
   assert_m( ciErrNum == CL_SUCCESS, "error creating program from source" );
 
-  ciErrNum = clBuildProgram( cpProgram, 1, cpDevice, "-cl-mad-enable -cl-fast-relaxed-math", NULL, NULL );
+  char oclFlags[1000];
+
+#if VEC > 1
+  sprintf( oclFlags,  "-cl-mad-enable -cl-fast-relaxed-math -D OP_WARPSIZE=%d -D VEC=%d -D VECTYPE=float%d", OP_WARPSIZE, VEC, VEC );
+#else 
+  sprintf( oclFlags,  "-cl-mad-enable -cl-fast-relaxed-math -D OP_WARPSIZE=%d -D VEC=%d -D VECTYPE=float", OP_WARPSIZE, VEC );
+#endif
+
+
+  ciErrNum = clBuildProgram( cpProgram, 1, cpDevice, oclFlags, NULL, NULL );
   if ( ciErrNum != CL_SUCCESS ) {
     char *log;
     size_t log_size = 0;
@@ -229,6 +238,8 @@ inline void cutilDeviceInit( int argc, char **argv ) {
 
 
   LOG( LOG_INFO, "initialising device... " );
+  double cpu_t1, cpu_t2, wall_t1, wall_t2;
+  op_timers(&cpu_t1, &wall_t1);
 
   ciErrNum = 0;
   ciErrNum = clGetPlatformIDs( 0, NULL, &ciNumPlatforms );
@@ -239,11 +250,11 @@ inline void cutilDeviceInit( int argc, char **argv ) {
   ciErrNum = clGetPlatformIDs( ciNumPlatforms, cpPlatform, NULL );
   assert_m( ciErrNum == CL_SUCCESS, "error getting platform IDs" );
 
-  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_GPU, 0, NULL, &ciNumDevices );
+  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_CPU, 0, NULL, &ciNumDevices );
   LOG( LOG_INFO, "obtained %d devices", ciNumDevices );
   assert_m( ciNumDevices > 0, "no devices found!" );
   cpDevice = ( cl_device_id * ) malloc( sizeof( cl_device_id ) * ciNumDevices );
-  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_GPU, ciNumDevices, cpDevice, NULL );
+  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_CPU, ciNumDevices, cpDevice, NULL );
   assert_m( ciErrNum == CL_SUCCESS, "error getting device IDs" );
 
   cxGPUContext = clCreateContext( 0, 1, cpDevice, NULL, NULL, &ciErrNum );
@@ -254,6 +265,9 @@ inline void cutilDeviceInit( int argc, char **argv ) {
 
   LOG( LOG_INFO, "OK\n" );
 
+  op_timers(&cpu_t2, &wall_t2);
+  op_timing_realloc(2);
+  printf("initialisation time: %lf\n", wall_t2 - wall_t1 );
   compileProgram( "kernels.cl" );
 
 }

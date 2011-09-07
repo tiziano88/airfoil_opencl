@@ -7,7 +7,6 @@ struct global_constants {
   float alpha;
   float qinf[4];
 };
-#define OP_WARPSIZE 32
 #define ZERO_float 0.0f
 #define ROUND_UP(bytes) (((bytes) + 15 ) & ~15 )
 #define MIN(a,b) ((a<b) ? (a) : (b))
@@ -548,7 +547,7 @@ __kernel void op_cuda_res_calc(
   __global int   *nelems,
   __global int   *ncolors,
   __global int   *colors,
-  __local  char *shared, 
+  __local  float *shared, 
   __constant struct global_constants *g_const_d) {
 
   float arg6_l[4];
@@ -589,13 +588,13 @@ __kernel void op_cuda_res_calc(
     // set shared memory pointers
 
     int nbytes = 0;
-    ind_arg0_s = (__local float * ) &shared[nbytes];
+    ind_arg0_s = shared + nbytes/sizeof(float);
     nbytes    += ROUND_UP(ind_arg0_size*sizeof(float)*2);
-    ind_arg1_s = (__local float * ) &shared[nbytes];
+    ind_arg1_s = shared + nbytes/sizeof(float);
     nbytes    += ROUND_UP(ind_arg1_size*sizeof(float)*4);
-    ind_arg2_s = (__local float * ) &shared[nbytes];
+    ind_arg2_s = shared + nbytes/sizeof(float);
     nbytes    += ROUND_UP(ind_arg2_size*sizeof(float)*1);
-    ind_arg3_s = (__local float * ) &shared[nbytes];
+    ind_arg3_s = shared + nbytes/sizeof(float);
   }
   barrier( CLK_LOCAL_MEM_FENCE ); // make sure all of above completed
   // copy indirect datasets into shared memory or zero increment

@@ -54,15 +54,26 @@ void op_par_loop_res_calc(char const *name, op_set set,
   for (int col=0; col < Plan->ncolors; col++) {
 
   #ifdef OP_BLOCK_SIZE_2
-    const size_t nthread = OP_BLOCK_SIZE_2;
+    size_t nthread = OP_BLOCK_SIZE_2;
   #else
-    const size_t nthread = OP_block_size;
+    size_t nthread = OP_block_size;
   #endif
 
-    const size_t nblocks = Plan->ncolblk[col];
-    const size_t n_tot_thread = nblocks * nthread;
+#ifdef VEC
+    nthread /= VEC;
+#endif
 
-    const size_t nshared = Plan->nshared;
+
+    size_t nblocks = Plan->ncolblk[col];
+
+
+    size_t n_tot_thread = nblocks * nthread;
+
+    size_t nshared = Plan->nshared;
+
+    //printf("threads: %d\n", n_tot_thread );
+
+    //printf("nelems: %d\n", Plan->nelems);
 
 
     int i = 0;
