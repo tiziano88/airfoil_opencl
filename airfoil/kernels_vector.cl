@@ -7,8 +7,6 @@ struct global_constants {
   float alpha;
   float qinf[4];
 };
-#define VEC 2
-#define VECTYPE float2
 #define ZERO_float 0.0f
 #define ROUND_UP(bytes) (((bytes) + 15 ) & ~15 )
 #define MIN(a,b) ((a<b) ? (a) : (b))
@@ -625,11 +623,13 @@ __kernel void op_cuda_res_calc(
     ind_arg3_s[n] = 0.0f;
   barrier( CLK_LOCAL_MEM_FENCE );
 
+  if (nelem != 128 ) {
   //printf("%d/%d/%d\n", nelems2, nelem, get_local_size(0));
+  }
 
 
   // process set elements
-  for (int n=get_local_id(0); n<nelems2; n+=get_local_size(0)) {
+  for (int n=get_local_id(0)*VEC; n<nelems2; n+=get_local_size(0)*VEC) {
     int col2 = -1;
     if (n<nelem) {
 

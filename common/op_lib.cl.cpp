@@ -46,7 +46,7 @@
 #include <CL/cl.h>
 
 #define OP_WARPSIZE 4
-#define VEC 2
+#define VEC 8
 //#define HOST_MEMORY 1
 
 // arrays for global constants and reductions
@@ -126,7 +126,12 @@ void compileProgram ( const char *filename ) {
 
   char oclFlags[1000];
 
-  sprintf( oclFlags,  "-cl-mad-enable -cl-fast-relaxed-math -D OP_WARPSIZE=%d", OP_WARPSIZE );
+#if VEC > 1
+  sprintf( oclFlags,  "-cl-mad-enable -cl-fast-relaxed-math -D OP_WARPSIZE=%d -D VEC=%d -D VECTYPE=float%d", OP_WARPSIZE, VEC, VEC );
+#else 
+  sprintf( oclFlags,  "-cl-mad-enable -cl-fast-relaxed-math -D OP_WARPSIZE=%d -D VEC=%d -D VECTYPE=float", OP_WARPSIZE, VEC );
+#endif
+
 
   ciErrNum = clBuildProgram( cpProgram, 1, cpDevice, oclFlags, NULL, NULL );
   if ( ciErrNum != CL_SUCCESS ) {
