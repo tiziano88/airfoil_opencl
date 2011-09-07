@@ -623,9 +623,6 @@ __kernel void op_cuda_res_calc(
     ind_arg3_s[n] = 0.0f;
   barrier( CLK_LOCAL_MEM_FENCE );
 
-  if (nelem != 128 ) {
-  //printf("%d/%d/%d\n", nelems2, nelem, get_local_size(0));
-  }
 
 
   // process set elements
@@ -835,7 +832,8 @@ __kernel void op_cuda_res_calc(
         for (int d=0; d<4; d++) {
 #if VEC>1
           ind_arg3_s[arg6_maps[n+0x0 + offset_b]*4+d] += arg6_l[d].s0;
-          ind_arg3_s[arg6_maps[n+0x1 + offset_b]*4+d] += arg6_l[d].s1;
+          //if (n+0x1 < 0)
+          ind_arg3_s[arg6_maps[n+1 + offset_b]*4+d] += arg6_l[d].s1;
 #if VEC>2
           ind_arg3_s[arg6_maps[n+0x2 + offset_b]*4+d] += arg6_l[d].s2;
           ind_arg3_s[arg6_maps[n+0x3 + offset_b]*4+d] += arg6_l[d].s3;
@@ -860,6 +858,7 @@ __kernel void op_cuda_res_calc(
           ind_arg3_s[arg6_maps[ n + offset_b ] *4+d] += arg6_l[d];
 #endif
         }
+return;
         for (int d=0; d<4; d++) {
 #if VEC>1
           ind_arg3_s[arg7_maps[n+0x0 + offset_b]*4+d] += arg7_l[d].s0;
