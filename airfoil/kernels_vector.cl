@@ -835,7 +835,7 @@ __kernel void op_cuda_res_calc(
         for (int d=0; d<4; d++) {
 #if VEC>1
           ind_arg3_s[arg6_maps[n+0x0 + offset_b]*4+d] += arg6_l[d].s0;
-          //ind_arg3_s[arg6_maps[n+0x1 + offset_b]*4+d] += arg6_l[d].s1;
+          ind_arg3_s[arg6_maps[n+0x1 + offset_b]*4+d] += arg6_l[d].s1;
 #if VEC>2
           ind_arg3_s[arg6_maps[n+0x2 + offset_b]*4+d] += arg6_l[d].s2;
           ind_arg3_s[arg6_maps[n+0x3 + offset_b]*4+d] += arg6_l[d].s3;
@@ -863,7 +863,7 @@ __kernel void op_cuda_res_calc(
         for (int d=0; d<4; d++) {
 #if VEC>1
           ind_arg3_s[arg7_maps[n+0x0 + offset_b]*4+d] += arg7_l[d].s0;
-          //ind_arg3_s[arg7_maps[n+0x1 + offset_b]*4+d] += arg7_l[d].s1;
+          ind_arg3_s[arg7_maps[n+0x1 + offset_b]*4+d] += arg7_l[d].s1;
 #if VEC>2
           ind_arg3_s[arg7_maps[n+0x2 + offset_b]*4+d] += arg7_l[d].s2;
           ind_arg3_s[arg7_maps[n+0x3 + offset_b]*4+d] += arg7_l[d].s3;

@@ -100,6 +100,7 @@ double: airfoil_opencl
 vector: airfoil_opencl
 	-ln -fs kernels_vector.cl kernels.cl
 
+
 #
 # cleanup
 #
