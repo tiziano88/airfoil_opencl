@@ -658,7 +658,7 @@ __kernel void op_cuda_res_calc(
 #endif
 #endif
 #else
-        arg0_l[m].s0 = ind_arg0_s[arg0_maps[n + offset_b]*2+m];
+        arg0_l[m] = ind_arg0_s[arg0_maps[n + offset_b]*2+m];
 #endif
       }
 
@@ -687,7 +687,7 @@ __kernel void op_cuda_res_calc(
 #endif
 #endif
 #else
-        arg1_l[m].s0 = ind_arg0_s[arg1_maps[n + offset_b]*2+m];
+        arg1_l[m] = ind_arg0_s[arg1_maps[n + offset_b]*2+m];
 #endif
       }
 
@@ -716,7 +716,7 @@ __kernel void op_cuda_res_calc(
 #endif
 #endif
 #else
-        arg2_l[m].s0 = ind_arg1_s[arg2_maps[n + offset_b]*4+m];
+        arg2_l[m] = ind_arg1_s[arg2_maps[n + offset_b]*4+m];
 #endif
       }
 
@@ -745,7 +745,7 @@ __kernel void op_cuda_res_calc(
 #endif
 #endif
 #else
-        arg3_l[m].s0 = ind_arg1_s[arg3_maps[n + offset_b]*4+m];
+        arg3_l[m] = ind_arg1_s[arg3_maps[n + offset_b]*4+m];
 #endif
       }
 
@@ -774,7 +774,7 @@ __kernel void op_cuda_res_calc(
 #endif
 #endif
 #else
-        arg4_l[m].s0 = ind_arg2_s[arg4_maps[n + offset_b]*1+m];
+        arg4_l[m] = ind_arg2_s[arg4_maps[n + offset_b]*1+m];
 #endif
       }
 
@@ -803,7 +803,7 @@ __kernel void op_cuda_res_calc(
 #endif
 #endif
 #else
-        arg5_l[m].s0 = ind_arg2_s[arg5_maps[n + offset_b]*1+m];
+        arg5_l[m] = ind_arg2_s[arg5_maps[n + offset_b]*1+m];
 #endif
       }
 
@@ -857,7 +857,7 @@ __kernel void op_cuda_res_calc(
 #endif
 #endif
 #else
-          ind_arg3_s[arg6_maps[ n + offset_b ] *4+d] += arg6_l[d].s0;
+          ind_arg3_s[arg6_maps[ n + offset_b ] *4+d] += arg6_l[d];
 #endif
         }
         for (int d=0; d<4; d++) {
@@ -885,7 +885,7 @@ __kernel void op_cuda_res_calc(
 #endif
 #endif
 #else
-          ind_arg3_s[arg7_maps[ n + offset_b ] *4+d] += arg7_l[d].s0;
+          ind_arg3_s[arg7_maps[ n + offset_b ] *4+d] += arg7_l[d];
 #endif
         }
       }

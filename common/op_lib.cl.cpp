@@ -45,8 +45,13 @@
 #define __NO_STD_VECTOR //use cl::vector
 #include <CL/cl.h>
 
-#define OP_WARPSIZE 4
-#define VEC 8
+#define OP_WARPSIZE 32
+
+#define VEC 16
+
+#ifndef VEC
+#define VEC 1
+#endif
 //#define HOST_MEMORY 1
 
 // arrays for global constants and reductions
@@ -245,11 +250,11 @@ inline void cutilDeviceInit( int argc, char **argv ) {
   ciErrNum = clGetPlatformIDs( ciNumPlatforms, cpPlatform, NULL );
   assert_m( ciErrNum == CL_SUCCESS, "error getting platform IDs" );
 
-  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_CPU, 0, NULL, &ciNumDevices );
+  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_GPU, 0, NULL, &ciNumDevices );
   LOG( LOG_INFO, "obtained %d devices", ciNumDevices );
   assert_m( ciNumDevices > 0, "no devices found!" );
   cpDevice = ( cl_device_id * ) malloc( sizeof( cl_device_id ) * ciNumDevices );
-  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_CPU, ciNumDevices, cpDevice, NULL );
+  ciErrNum = clGetDeviceIDs( cpPlatform[0], CL_DEVICE_TYPE_GPU, ciNumDevices, cpDevice, NULL );
   assert_m( ciErrNum == CL_SUCCESS, "error getting device IDs" );
 
   cxGPUContext = clCreateContext( 0, 1, cpDevice, NULL, NULL, &ciErrNum );
