@@ -47,7 +47,8 @@
 
 #define OP_WARPSIZE 32
 
-#define ASYNC 1
+//#define ASYNC 1
+#define PROFILE
 
 #ifndef VEC
 #define VEC 1
@@ -241,7 +242,7 @@ inline void cutilDeviceInit( int argc, char **argv ) {
 
   LOG( LOG_INFO, "initialising device... " );
   double cpu_t1, cpu_t2, wall_t1, wall_t2;
-  //op_timers(&cpu_t1, &wall_t1);
+  op_timers(&cpu_t1, &wall_t1);
 
   ciErrNum = 0;
   ciErrNum = clGetPlatformIDs( 0, NULL, &ciNumPlatforms );
@@ -264,16 +265,21 @@ inline void cutilDeviceInit( int argc, char **argv ) {
   assert_m( ciErrNum == CL_SUCCESS, "error creating context" );
   LOG( LOG_INFO, "created context");
 
+#ifdef PROFILE
+  cqCommandQueue = clCreateCommandQueue( cxGPUContext, cpDevice[0], CL_QUEUE_PROFILING_ENABLE, &ciErrNum );
+#else
   cqCommandQueue = clCreateCommandQueue( cxGPUContext, cpDevice[0], 0, &ciErrNum );
+#endif
   assert_m( ciErrNum == CL_SUCCESS, "error creating command queue" );
   LOG( LOG_INFO, "created command queue");
 
   LOG( LOG_INFO, "OK\n" );
 
-  //op_timers(&cpu_t2, &wall_t2);
-  //op_timing_realloc(2);
-  printf("initialisation time: %lf\n", wall_t2 - wall_t1 );
   compileProgram( "kernels.cl" );
+
+  op_timers(&cpu_t2, &wall_t2);
+  op_timing_realloc(2);
+  printf("initialisation time: %lf\n", wall_t2 - wall_t1 );
 
 }
 

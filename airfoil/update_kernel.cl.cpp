@@ -18,6 +18,7 @@ void op_par_loop_update(char const *name, op_set set,
   float *arg4h = (float *)arg4.data;
 
   cl_int ciErrNum;
+  cl_event ceEvent;
 
   if (OP_diags>2) {
     printf(" kernel routine w/o indirection:  update \n");
@@ -94,12 +95,22 @@ void op_par_loop_update(char const *name, op_set set,
   ciErrNum |= clSetKernelArg( hKernel, i++, nshared, NULL );
   assert_m( ciErrNum == CL_SUCCESS, "error setting kernel arguments" );
 
-  ciErrNum = clEnqueueNDRangeKernel( cqCommandQueue, hKernel, 1, NULL, &n_tot_thread, &nthread, 0, NULL, NULL );
+  ciErrNum = clEnqueueNDRangeKernel( cqCommandQueue, hKernel, 1, NULL, &n_tot_thread, &nthread, 0, NULL, &ceEvent );
   assert_m( ciErrNum == CL_SUCCESS, "error executing kernel" );
 
 #ifndef ASYNC
   ciErrNum = clFinish( cqCommandQueue );
   assert_m( ciErrNum == CL_SUCCESS, "error completing device commands" );
+
+#ifdef PROFILE
+    cl_ulong tqueue, tsubmit, tstart, tend, telapsed;
+    ciErrNum = clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong), &tqueue, NULL );
+    ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_SUBMIT, sizeof(cl_ulong), &tsubmit, NULL );
+    ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &tstart, NULL );
+    ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &tend, NULL );
+    assert_m( ciErrNum == CL_SUCCESS, "error getting profiling info" );
+    OP_kernels[4].time     += (tend - tstart) * 1.0e-9f;
+#endif
 #endif
   
   // transfer global reduction data back to CPU
@@ -116,7 +127,9 @@ void op_par_loop_update(char const *name, op_set set,
   op_timing_realloc(4);
   OP_kernels[4].name      = name;
   OP_kernels[4].count    += 1;
+#ifndef PROFILE
   OP_kernels[4].time     += wall_t2 - wall_t1;
+#endif
   OP_kernels[4].transfer += (float)set->size * arg0.size;
   OP_kernels[4].transfer += (float)set->size * arg1.size;
   OP_kernels[4].transfer += (float)set->size * arg2.size * 2.0f;

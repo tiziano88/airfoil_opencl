@@ -18,6 +18,7 @@ void op_par_loop_adt_calc(char const *name, op_set set,
   op_arg arg5 ){
 
   cl_int ciErrNum;
+  cl_event ceEvent;
 
   int    nargs   = 6;
   op_arg args[6] = {arg0,arg1,arg2,arg3,arg4,arg5};
@@ -89,13 +90,23 @@ void op_par_loop_adt_calc(char const *name, op_set set,
     assert_m( ciErrNum == CL_SUCCESS, "error setting kernel arguments" );
 
 
-    ciErrNum = clEnqueueNDRangeKernel( cqCommandQueue, hKernel, 1, NULL, &n_tot_thread, &nthread, 0, NULL, NULL );
+    ciErrNum = clEnqueueNDRangeKernel( cqCommandQueue, hKernel, 1, NULL, &n_tot_thread, &nthread, 0, NULL, &ceEvent );
     //ciErrNum = clEnqueueNDRangeKernel( cqCommandQueue, hKernel, 1, NULL, &n_tot_thread, NULL, 0, NULL, NULL );
     assert_m( ciErrNum == CL_SUCCESS, "error executing kernel" );
 
 #ifndef ASYNC
     ciErrNum = clFinish( cqCommandQueue );
     assert_m( ciErrNum == CL_SUCCESS, "error completing device commands" );
+
+#ifdef PROFILE
+    cl_ulong tqueue, tsubmit, tstart, tend, telapsed;
+    ciErrNum = clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong), &tqueue, NULL );
+    ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_SUBMIT, sizeof(cl_ulong), &tsubmit, NULL );
+    ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &tstart, NULL );
+    ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &tend, NULL );
+    assert_m( ciErrNum == CL_SUCCESS, "error getting profiling info" );
+    OP_kernels[1].time     += (tend - tstart) * 1.0e-9f;
+#endif
 #endif
 
     block_offset += nblocks;
@@ -107,7 +118,9 @@ void op_par_loop_adt_calc(char const *name, op_set set,
   op_timing_realloc(1);
   OP_kernels[1].name      = name;
   OP_kernels[1].count    += 1;
+#ifndef PROFILE
   OP_kernels[1].time     += wall_t2 - wall_t1;
+#endif
   OP_kernels[1].transfer  += Plan->transfer;
   OP_kernels[1].transfer2 += Plan->transfer2;
 }
