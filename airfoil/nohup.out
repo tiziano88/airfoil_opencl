@@ -1,0 +1,466 @@
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+make: stat: airfoil_kernels_ocl.o: Stale NFS file handle
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=32 -DOP_BLOCK_SIZE_1=32 -DOP_BLOCK_SIZE_2=32 -DOP_BLOCK_SIZE_3=32 -DOP_PART_SIZE_0=32 -DOP_PART_SIZE_1=32 -DOP_PART_SIZE_2=32 -DOP_PART_SIZE_3=32 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=32 -DOP_BLOCK_SIZE_1=32 -DOP_BLOCK_SIZE_2=32 -DOP_BLOCK_SIZE_3=32 -DOP_PART_SIZE_0=32 -DOP_PART_SIZE_1=32 -DOP_PART_SIZE_2=32 -DOP_PART_SIZE_3=32 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 32, 32, 1, opencl, avx, single, 
+391.6500
+-ne 32, 32, 2, opencl, avx, single, 
+383.8000
+-ne 32, 32, 3, opencl, avx, single, 
+383.6300
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=32 -DOP_BLOCK_SIZE_1=32 -DOP_BLOCK_SIZE_2=32 -DOP_BLOCK_SIZE_3=32 -DOP_PART_SIZE_0=64 -DOP_PART_SIZE_1=64 -DOP_PART_SIZE_2=64 -DOP_PART_SIZE_3=64 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=32 -DOP_BLOCK_SIZE_1=32 -DOP_BLOCK_SIZE_2=32 -DOP_BLOCK_SIZE_3=32 -DOP_PART_SIZE_0=64 -DOP_PART_SIZE_1=64 -DOP_PART_SIZE_2=64 -DOP_PART_SIZE_3=64 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 32, 64, 1, opencl, avx, single, 
+323.4500
+-ne 32, 64, 2, opencl, avx, single, 
+324.4800
+-ne 32, 64, 3, opencl, avx, single, 
+326.1900
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=32 -DOP_BLOCK_SIZE_1=32 -DOP_BLOCK_SIZE_2=32 -DOP_BLOCK_SIZE_3=32 -DOP_PART_SIZE_0=128 -DOP_PART_SIZE_1=128 -DOP_PART_SIZE_2=128 -DOP_PART_SIZE_3=128 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=32 -DOP_BLOCK_SIZE_1=32 -DOP_BLOCK_SIZE_2=32 -DOP_BLOCK_SIZE_3=32 -DOP_PART_SIZE_0=128 -DOP_PART_SIZE_1=128 -DOP_PART_SIZE_2=128 -DOP_PART_SIZE_3=128 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 32, 128, 1, opencl, avx, single, 
+289.9100
+-ne 32, 128, 2, opencl, avx, single, 
+290.9700
+-ne 32, 128, 3, opencl, avx, single, 
+290.9300
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=32 -DOP_BLOCK_SIZE_1=32 -DOP_BLOCK_SIZE_2=32 -DOP_BLOCK_SIZE_3=32 -DOP_PART_SIZE_0=256 -DOP_PART_SIZE_1=256 -DOP_PART_SIZE_2=256 -DOP_PART_SIZE_3=256 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=32 -DOP_BLOCK_SIZE_1=32 -DOP_BLOCK_SIZE_2=32 -DOP_BLOCK_SIZE_3=32 -DOP_PART_SIZE_0=256 -DOP_PART_SIZE_1=256 -DOP_PART_SIZE_2=256 -DOP_PART_SIZE_3=256 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 32, 256, 1, opencl, avx, single, 
+274.8000
+-ne 32, 256, 2, opencl, avx, single, 
+272.8900
+-ne 32, 256, 3, opencl, avx, single, 
+273.1700
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=64 -DOP_BLOCK_SIZE_1=64 -DOP_BLOCK_SIZE_2=64 -DOP_BLOCK_SIZE_3=64 -DOP_PART_SIZE_0=32 -DOP_PART_SIZE_1=32 -DOP_PART_SIZE_2=32 -DOP_PART_SIZE_3=32 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=64 -DOP_BLOCK_SIZE_1=64 -DOP_BLOCK_SIZE_2=64 -DOP_BLOCK_SIZE_3=64 -DOP_PART_SIZE_0=32 -DOP_PART_SIZE_1=32 -DOP_PART_SIZE_2=32 -DOP_PART_SIZE_3=32 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 64, 32, 1, opencl, avx, single, 
+596.6900
+-ne 64, 32, 2, opencl, avx, single, 
+606.5000
+-ne 64, 32, 3, opencl, avx, single, 
+599.1100
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=64 -DOP_BLOCK_SIZE_1=64 -DOP_BLOCK_SIZE_2=64 -DOP_BLOCK_SIZE_3=64 -DOP_PART_SIZE_0=64 -DOP_PART_SIZE_1=64 -DOP_PART_SIZE_2=64 -DOP_PART_SIZE_3=64 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=64 -DOP_BLOCK_SIZE_1=64 -DOP_BLOCK_SIZE_2=64 -DOP_BLOCK_SIZE_3=64 -DOP_PART_SIZE_0=64 -DOP_PART_SIZE_1=64 -DOP_PART_SIZE_2=64 -DOP_PART_SIZE_3=64 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 64, 64, 1, opencl, avx, single, 
+361.9800
+-ne 64, 64, 2, opencl, avx, single, 
+360.2100
+-ne 64, 64, 3, opencl, avx, single, 
+362.4100
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=64 -DOP_BLOCK_SIZE_1=64 -DOP_BLOCK_SIZE_2=64 -DOP_BLOCK_SIZE_3=64 -DOP_PART_SIZE_0=128 -DOP_PART_SIZE_1=128 -DOP_PART_SIZE_2=128 -DOP_PART_SIZE_3=128 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=64 -DOP_BLOCK_SIZE_1=64 -DOP_BLOCK_SIZE_2=64 -DOP_BLOCK_SIZE_3=64 -DOP_PART_SIZE_0=128 -DOP_PART_SIZE_1=128 -DOP_PART_SIZE_2=128 -DOP_PART_SIZE_3=128 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 64, 128, 1, opencl, avx, single, 
+310.4100
+-ne 64, 128, 2, opencl, avx, single, 
+311.5000
+-ne 64, 128, 3, opencl, avx, single, 
+311.4400
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=64 -DOP_BLOCK_SIZE_1=64 -DOP_BLOCK_SIZE_2=64 -DOP_BLOCK_SIZE_3=64 -DOP_PART_SIZE_0=256 -DOP_PART_SIZE_1=256 -DOP_PART_SIZE_2=256 -DOP_PART_SIZE_3=256 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=64 -DOP_BLOCK_SIZE_1=64 -DOP_BLOCK_SIZE_2=64 -DOP_BLOCK_SIZE_3=64 -DOP_PART_SIZE_0=256 -DOP_PART_SIZE_1=256 -DOP_PART_SIZE_2=256 -DOP_PART_SIZE_3=256 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 64, 256, 1, opencl, avx, single, 
+285.2000
+-ne 64, 256, 2, opencl, avx, single, 
+285.7400
+-ne 64, 256, 3, opencl, avx, single, 
+286.0600
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=128 -DOP_BLOCK_SIZE_1=128 -DOP_BLOCK_SIZE_2=128 -DOP_BLOCK_SIZE_3=128 -DOP_PART_SIZE_0=32 -DOP_PART_SIZE_1=32 -DOP_PART_SIZE_2=32 -DOP_PART_SIZE_3=32 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=128 -DOP_BLOCK_SIZE_1=128 -DOP_BLOCK_SIZE_2=128 -DOP_BLOCK_SIZE_3=128 -DOP_PART_SIZE_0=32 -DOP_PART_SIZE_1=32 -DOP_PART_SIZE_2=32 -DOP_PART_SIZE_3=32 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 128, 32, 1, opencl, avx, single, 
+958.4000
+-ne 128, 32, 2, opencl, avx, single, 
+947.8500
+-ne 128, 32, 3, opencl, avx, single, 
+1010.1300
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=128 -DOP_BLOCK_SIZE_1=128 -DOP_BLOCK_SIZE_2=128 -DOP_BLOCK_SIZE_3=128 -DOP_PART_SIZE_0=64 -DOP_PART_SIZE_1=64 -DOP_PART_SIZE_2=64 -DOP_PART_SIZE_3=64 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=128 -DOP_BLOCK_SIZE_1=128 -DOP_BLOCK_SIZE_2=128 -DOP_BLOCK_SIZE_3=128 -DOP_PART_SIZE_0=64 -DOP_PART_SIZE_1=64 -DOP_PART_SIZE_2=64 -DOP_PART_SIZE_3=64 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 128, 64, 1, opencl, avx, single, 
+555.9400
+-ne 128, 64, 2, opencl, avx, single, 
+575.7900
+-ne 128, 64, 3, opencl, avx, single, 
+556.7600
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=128 -DOP_BLOCK_SIZE_1=128 -DOP_BLOCK_SIZE_2=128 -DOP_BLOCK_SIZE_3=128 -DOP_PART_SIZE_0=128 -DOP_PART_SIZE_1=128 -DOP_PART_SIZE_2=128 -DOP_PART_SIZE_3=128 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=128 -DOP_BLOCK_SIZE_1=128 -DOP_BLOCK_SIZE_2=128 -DOP_BLOCK_SIZE_3=128 -DOP_PART_SIZE_0=128 -DOP_PART_SIZE_1=128 -DOP_PART_SIZE_2=128 -DOP_PART_SIZE_3=128 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 128, 128, 1, opencl, avx, single, 
+354.8700
+-ne 128, 128, 2, opencl, avx, single, 
+363.1900
+-ne 128, 128, 3, opencl, avx, single, 
+356.3700
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=128 -DOP_BLOCK_SIZE_1=128 -DOP_BLOCK_SIZE_2=128 -DOP_BLOCK_SIZE_3=128 -DOP_PART_SIZE_0=256 -DOP_PART_SIZE_1=256 -DOP_PART_SIZE_2=256 -DOP_PART_SIZE_3=256 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=128 -DOP_BLOCK_SIZE_1=128 -DOP_BLOCK_SIZE_2=128 -DOP_BLOCK_SIZE_3=128 -DOP_PART_SIZE_0=256 -DOP_PART_SIZE_1=256 -DOP_PART_SIZE_2=256 -DOP_PART_SIZE_3=256 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 128, 256, 1, opencl, avx, single, 
+314.9500
+-ne 128, 256, 2, opencl, avx, single, 
+315.4000
+-ne 128, 256, 3, opencl, avx, single, 
+314.6200
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=256 -DOP_BLOCK_SIZE_1=256 -DOP_BLOCK_SIZE_2=256 -DOP_BLOCK_SIZE_3=256 -DOP_PART_SIZE_0=32 -DOP_PART_SIZE_1=32 -DOP_PART_SIZE_2=32 -DOP_PART_SIZE_3=32 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=256 -DOP_BLOCK_SIZE_1=256 -DOP_BLOCK_SIZE_2=256 -DOP_BLOCK_SIZE_3=256 -DOP_PART_SIZE_0=32 -DOP_PART_SIZE_1=32 -DOP_PART_SIZE_2=32 -DOP_PART_SIZE_3=32 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 256, 32, 1, opencl, avx, single, 
+1749.9100
+-ne 256, 32, 2, opencl, avx, single, 
+1751.8700
+-ne 256, 32, 3, opencl, avx, single, 
+1861.3700
+make: getcwd: No such file or directory
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=256 -DOP_BLOCK_SIZE_1=256 -DOP_BLOCK_SIZE_2=256 -DOP_BLOCK_SIZE_3=256 -DOP_PART_SIZE_0=64 -DOP_PART_SIZE_1=64 -DOP_PART_SIZE_2=64 -DOP_PART_SIZE_3=64 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=256 -DOP_BLOCK_SIZE_1=256 -DOP_BLOCK_SIZE_2=256 -DOP_BLOCK_SIZE_3=256 -DOP_PART_SIZE_0=64 -DOP_PART_SIZE_1=64 -DOP_PART_SIZE_2=64 -DOP_PART_SIZE_3=64 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 256, 64, 1, opencl, avx, single, 
+947.5400
+-ne 256, 64, 2, opencl, avx, single, 
+949.3800
+-ne 256, 64, 3, opencl, avx, single, 
+954.9400
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=256 -DOP_BLOCK_SIZE_1=256 -DOP_BLOCK_SIZE_2=256 -DOP_BLOCK_SIZE_3=256 -DOP_PART_SIZE_0=128 -DOP_PART_SIZE_1=128 -DOP_PART_SIZE_2=128 -DOP_PART_SIZE_3=128 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=256 -DOP_BLOCK_SIZE_1=256 -DOP_BLOCK_SIZE_2=256 -DOP_BLOCK_SIZE_3=256 -DOP_PART_SIZE_0=128 -DOP_PART_SIZE_1=128 -DOP_PART_SIZE_2=128 -DOP_PART_SIZE_3=128 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 256, 128, 1, opencl, avx, single, 
+559.4100
+-ne 256, 128, 2, opencl, avx, single, 
+576.5400
+-ne 256, 128, 3, opencl, avx, single, 
+575.1800
+rm -f airfoil_seq airfoil_op airfoil_cuda airfoil_opencl *.o
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=256 -DOP_BLOCK_SIZE_1=256 -DOP_BLOCK_SIZE_2=256 -DOP_BLOCK_SIZE_3=256 -DOP_PART_SIZE_0=256 -DOP_PART_SIZE_1=256 -DOP_PART_SIZE_2=256 -DOP_PART_SIZE_3=256 -g -I../common -I. -I/include -I../common -I. -c -o airfoil_kernels_ocl.o airfoil_kernels.cl.cpp
+In file included from airfoil_kernels.cl.cpp:11:0:
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argc’
+../common/op_lib.cl.cpp:210:13: warning: unused parameter ‘argv’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dim’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘type’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘size’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘dat’
+airfoil_kernels.cl.cpp:23:6: warning: unused parameter ‘name’
+In file included from airfoil_kernels.cl.cpp:32:0:
+save_soln_kernel.cl.cpp: In function ‘void op_par_loop_save_soln(const char*, op_set_core*, op_arg, op_arg)’:
+save_soln_kernel.cl.cpp:43:13: warning: comparison between signed and unsigned integer expressions
+save_soln_kernel.cl.cpp:44:13: warning: comparison between signed and unsigned integer expressions
+In file included from airfoil_kernels.cl.cpp:36:0:
+update_kernel.cl.cpp: In function ‘void op_par_loop_update(const char*, op_set_core*, op_arg, op_arg, op_arg, op_arg, op_arg)’:
+update_kernel.cl.cpp:50:19: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:69:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:70:13: warning: comparison between signed and unsigned integer expressions
+update_kernel.cl.cpp:71:13: warning: comparison between signed and unsigned integer expressions
+../common/op_lib.cl.cpp: In function ‘void compileProgram(const char*)’:
+../common/op_lib.cl.cpp:122:50: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result
+g++ -O3 -fPIC -DUNIX -Wall -Wextra -DOP_BLOCK_SIZE_0=256 -DOP_BLOCK_SIZE_1=256 -DOP_BLOCK_SIZE_2=256 -DOP_BLOCK_SIZE_3=256 -DOP_PART_SIZE_0=256 -DOP_PART_SIZE_1=256 -DOP_PART_SIZE_2=256 -DOP_PART_SIZE_3=256 -g -I../common -I. -I/include -I../common -I. -fPIC -o airfoil_opencl airfoil_op.cpp airfoil_kernels_ocl.o ../common/op_lib.a -L/usr/lib64 -L/lib/x86_64 -lOpenCL
+-ne 256, 256, 1, opencl, avx, single, 
+358.4200
+-ne 256, 256, 2, opencl, avx, single, 
+358.1300
+-ne 256, 256, 3, opencl, avx, single, 
+357.9100
