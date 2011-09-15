@@ -858,7 +858,6 @@ __kernel void op_cuda_res_calc(
           ind_arg3_s[arg6_maps[ n + offset_b ] *4+d] += arg6_l[d];
 #endif
         }
-return;
         for (int d=0; d<4; d++) {
 #if VEC>1
           ind_arg3_s[arg7_maps[n+0x0 + offset_b]*4+d] += arg7_l[d].s0;
