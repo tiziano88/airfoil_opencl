@@ -1,0 +1,96 @@
+-ne 32, 32, 1, opencl, avx, single, 
+391.6500
+-ne 32, 32, 2, opencl, avx, single, 
+383.8000
+-ne 32, 32, 3, opencl, avx, single, 
+383.6300
+-ne 32, 64, 1, opencl, avx, single, 
+323.4500
+-ne 32, 64, 2, opencl, avx, single, 
+324.4800
+-ne 32, 64, 3, opencl, avx, single, 
+326.1900
+-ne 32, 128, 1, opencl, avx, single, 
+289.9100
+-ne 32, 128, 2, opencl, avx, single, 
+290.9700
+-ne 32, 128, 3, opencl, avx, single, 
+290.9300
+-ne 32, 256, 1, opencl, avx, single, 
+274.8000
+-ne 32, 256, 2, opencl, avx, single, 
+272.8900
+-ne 32, 256, 3, opencl, avx, single, 
+273.1700
+-ne 64, 32, 1, opencl, avx, single, 
+596.6900
+-ne 64, 32, 2, opencl, avx, single, 
+606.5000
+-ne 64, 32, 3, opencl, avx, single, 
+599.1100
+-ne 64, 64, 1, opencl, avx, single, 
+361.9800
+-ne 64, 64, 2, opencl, avx, single, 
+360.2100
+-ne 64, 64, 3, opencl, avx, single, 
+362.4100
+-ne 64, 128, 1, opencl, avx, single, 
+310.4100
+-ne 64, 128, 2, opencl, avx, single, 
+311.5000
+-ne 64, 128, 3, opencl, avx, single, 
+311.4400
+-ne 64, 256, 1, opencl, avx, single, 
+285.2000
+-ne 64, 256, 2, opencl, avx, single, 
+285.7400
+-ne 64, 256, 3, opencl, avx, single, 
+286.0600
+-ne 128, 32, 1, opencl, avx, single, 
+958.4000
+-ne 128, 32, 2, opencl, avx, single, 
+947.8500
+-ne 128, 32, 3, opencl, avx, single, 
+1010.1300
+-ne 128, 64, 1, opencl, avx, single, 
+555.9400
+-ne 128, 64, 2, opencl, avx, single, 
+575.7900
+-ne 128, 64, 3, opencl, avx, single, 
+556.7600
+-ne 128, 128, 1, opencl, avx, single, 
+354.8700
+-ne 128, 128, 2, opencl, avx, single, 
+363.1900
+-ne 128, 128, 3, opencl, avx, single, 
+356.3700
+-ne 128, 256, 1, opencl, avx, single, 
+314.9500
+-ne 128, 256, 2, opencl, avx, single, 
+315.4000
+-ne 128, 256, 3, opencl, avx, single, 
+314.6200
+-ne 256, 32, 1, opencl, avx, single, 
+1749.9100
+-ne 256, 32, 2, opencl, avx, single, 
+1751.8700
+-ne 256, 32, 3, opencl, avx, single, 
+1861.3700
+-ne 256, 64, 1, opencl, avx, single, 
+947.5400
+-ne 256, 64, 2, opencl, avx, single, 
+949.3800
+-ne 256, 64, 3, opencl, avx, single, 
+954.9400
+-ne 256, 128, 1, opencl, avx, single, 
+559.4100
+-ne 256, 128, 2, opencl, avx, single, 
+576.5400
+-ne 256, 128, 3, opencl, avx, single, 
+575.1800
+-ne 256, 256, 1, opencl, avx, single, 
+358.4200
+-ne 256, 256, 2, opencl, avx, single, 
+358.1300
+-ne 256, 256, 3, opencl, avx, single, 
+357.9100
