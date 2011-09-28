@@ -72,13 +72,17 @@ void op_par_loop_save_soln(char const *name, op_set set,
   assert_m( ciErrNum == CL_SUCCESS, "error completing device commands" );
 
 #ifdef PROFILE
-  cl_ulong tqueue, tsubmit, tstart, tend, telapsed;
-  ciErrNum = clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong), &tqueue, NULL );
-  ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_SUBMIT, sizeof(cl_ulong), &tsubmit, NULL );
-  ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &tstart, NULL );
-  ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &tend, NULL );
+  unsigned long tqueue, tsubmit, tstart, tend, telapsed;
+  ciErrNum  = clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_QUEUED, sizeof(tqueue), &tqueue, NULL );
+  ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_SUBMIT, sizeof(tsubmit), &tsubmit, NULL );
+  ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_START, sizeof(tstart), &tstart, NULL );
+  ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_END, sizeof(tend), &tend, NULL );
   assert_m( ciErrNum == CL_SUCCESS, "error getting profiling info" );
-  OP_kernels[0].time     += (tend - tstart) * 1.0e-9f;;
+  printf("%20lu\n%20lu\n%20lu\n%20lu\n\n", tqueue, tsubmit, tstart, tend);
+  OP_kernels[0].queue_time      += (tsubmit - tqueue) * 1.0e-6;
+  OP_kernels[0].wait_time       += (tstart - tsubmit) * 1.0e-6;
+  OP_kernels[0].execution_time  += (tend - tstart) * 1.0e-6;
+  //printf("queue: %lu\nwait: %lu\nexec: %lu\n\n", (tsubmit - tqueue)*1.0e-6, (tstart - tsubmit)*1.0e-6, (tend - tstart)*1.0e-6 );
 #endif
 
   // update kernel record
@@ -87,9 +91,7 @@ void op_par_loop_save_soln(char const *name, op_set set,
   op_timing_realloc(0);
   OP_kernels[0].name      = name;
   OP_kernels[0].count    += 1;
-#ifndef PROFILE
   OP_kernels[0].time     += wall_t2 - wall_t1;
-#endif
   OP_kernels[0].transfer += (float)set->size * arg0.size;
   OP_kernels[0].transfer += (float)set->size * arg1.size;
 #endif

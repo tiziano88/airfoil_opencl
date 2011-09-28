@@ -187,6 +187,9 @@ typedef struct {
   char const *name;     // name of kernel function
   int         count;    // number of times called
   float       time;     // total execution time
+  unsigned long       queue_time;
+  unsigned long       wait_time;
+  unsigned long       execution_time;
   float       transfer; // bytes of data transfer (used)
   float       transfer2;// bytes of data transfer (total)
 } op_kernel;

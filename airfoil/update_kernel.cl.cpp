@@ -109,7 +109,9 @@ void op_par_loop_update(char const *name, op_set set,
     ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &tstart, NULL );
     ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &tend, NULL );
     assert_m( ciErrNum == CL_SUCCESS, "error getting profiling info" );
-    OP_kernels[4].time     += (tend - tstart) * 1.0e-9f;
+    OP_kernels[4].queue_time      += (tsubmit - tqueue) * 1.0e-6;
+    OP_kernels[4].wait_time       += (tstart - tsubmit) * 1.0e-6;
+    OP_kernels[4].execution_time  += (tend - tstart) * 1.0e-6;
 #endif
 #endif
   
@@ -127,9 +129,7 @@ void op_par_loop_update(char const *name, op_set set,
   op_timing_realloc(4);
   OP_kernels[4].name      = name;
   OP_kernels[4].count    += 1;
-#ifndef PROFILE
   OP_kernels[4].time     += wall_t2 - wall_t1;
-#endif
   OP_kernels[4].transfer += (float)set->size * arg0.size;
   OP_kernels[4].transfer += (float)set->size * arg1.size;
   OP_kernels[4].transfer += (float)set->size * arg2.size * 2.0f;
