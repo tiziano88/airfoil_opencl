@@ -78,11 +78,11 @@ void op_par_loop_save_soln(char const *name, op_set set,
   ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_START, sizeof(tstart), &tstart, NULL );
   ciErrNum |= clGetEventProfilingInfo( ceEvent, CL_PROFILING_COMMAND_END, sizeof(tend), &tend, NULL );
   assert_m( ciErrNum == CL_SUCCESS, "error getting profiling info" );
-  printf("%20lu\n%20lu\n%20lu\n%20lu\n\n", tqueue, tsubmit, tstart, tend);
-  OP_kernels[0].queue_time      += (tsubmit - tqueue) * 1.0e-6;
-  OP_kernels[0].wait_time       += (tstart - tsubmit) * 1.0e-6;
-  OP_kernels[0].execution_time  += (tend - tstart) * 1.0e-6;
-  //printf("queue: %lu\nwait: %lu\nexec: %lu\n\n", (tsubmit - tqueue)*1.0e-6, (tstart - tsubmit)*1.0e-6, (tend - tstart)*1.0e-6 );
+  OP_kernels[0].queue_time      += (tsubmit - tqueue);
+  OP_kernels[0].wait_time       += (tstart - tsubmit);
+  OP_kernels[0].execution_time  += (tend - tstart);
+  //printf("%20lu\n%20lu\n%20lu\n%20lu\n\n", tqueue, tsubmit, tstart, tend);
+  //printf("queue: %8.4f\nwait:%8.4f\nexec: %8.4f\n\n", OP_kernels[0].queue_time * 1.0e-9, OP_kernels[0].wait_time * 1.0e-9, OP_kernels[0].execution_time * 1.0e-9 );
 #endif
 
   // update kernel record

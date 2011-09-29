@@ -391,15 +391,19 @@ void op_timing_output() {
                OP_kernels[n].transfer/(1e9f*OP_kernels[n].time),
                OP_kernels[n].name);
         else */
-          printf(" %6d  %8.4f %8lu %8lu %8lu %8.4f %8.4f   %s \n",
+          printf(" %6d  %8.4f %8.4f %8.4f %8.4f %8.4f %8.4f   %s \n",
 	       OP_kernels[n].count,
            OP_kernels[n].time,
-           OP_kernels[n].queue_time,
-           OP_kernels[n].wait_time,
-           OP_kernels[n].execution_time,
+           OP_kernels[n].queue_time * 1.0e-9,
+           OP_kernels[n].wait_time * 1.0e-9,
+           OP_kernels[n].execution_time * 1.0e-9,
            OP_kernels[n].transfer/(1e9f*OP_kernels[n].time),
            OP_kernels[n].transfer2/(1e9f*OP_kernels[n].time),
            OP_kernels[n].name);
+          printf("%20lu %20lu %20lu\n",
+           OP_kernels[n].queue_time / 1000000,
+           OP_kernels[n].wait_time / 1000000,
+           OP_kernels[n].execution_time / 1000000);
       }
     }
   }
