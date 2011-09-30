@@ -8,6 +8,7 @@
 
 // host stub function
 
+//#define AUTO_BLOCK_SIZE
 void op_par_loop_save_soln(char const *name, op_set set,
   op_arg arg0,
   op_arg arg1 ){
@@ -28,12 +29,16 @@ void op_par_loop_save_soln(char const *name, op_set set,
 
   // set CUDA execution parameters
 
+#ifdef AUTO_BLOCK_SIZE
+    const size_t nthread = 1024;
+#else
   #ifdef OP_BLOCK_SIZE_0
     const size_t nthread = OP_BLOCK_SIZE_0;
   #else
     // int nthread = OP_block_size;
     const size_t nthread = 128;
   #endif
+#endif
 
   const size_t nblocks = 200;
   const size_t n_tot_thread = nblocks * nthread;
@@ -64,7 +69,11 @@ void op_par_loop_save_soln(char const *name, op_set set,
   ciErrNum |= clSetKernelArg( hKernel, i++, nshared, NULL );
   assert_m( ciErrNum == CL_SUCCESS, "error setting kernel arguments" );
 
+#ifdef AUTO_BLOCK_SIZE
+  ciErrNum = clEnqueueNDRangeKernel( cqCommandQueue, hKernel, 1, NULL, &n_tot_thread, NULL, 0, NULL, &ceEvent );
+#else
   ciErrNum = clEnqueueNDRangeKernel( cqCommandQueue, hKernel, 1, NULL, &n_tot_thread, &nthread, 0, NULL, &ceEvent );
+#endif
   assert_m( ciErrNum == CL_SUCCESS, "error executing kernel" );
 
 #ifndef ASYNC
