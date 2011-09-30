@@ -271,7 +271,7 @@ inline void cutilDeviceInit( int argc, char **argv ) {
   clGetDeviceInfo(cpDevice[0], CL_DEVICE_PROFILING_TIMER_RESOLUTION, sizeof(cl_ulong), &resolution, NULL);
   printf("device timer resolution: %lu ns\n", resolution);
 #else
-  //cqCommandQueue = clCreateCommandQueue( cxGPUContext, cpDevice[0], 0, &ciErrNum );
+  cqCommandQueue = clCreateCommandQueue( cxGPUContext, cpDevice[0], 0, &ciErrNum );
 #endif
   assert_m( ciErrNum == CL_SUCCESS, "error creating command queue" );
   LOG( LOG_INFO, "created command queue");
